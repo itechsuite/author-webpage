@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(node -e ' *)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s -i -X POST http://localhost:3000/api/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"hitechsuite@gmail.com\",\"password\":\"wrong\"}')",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/api/auth/login -X POST -H \"Content-Type: application/json\" -d '{\"email\":\"hitechsuite@gmail.com\",\"password\":\"ChangeMe123!\"}' -c /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/cookies.txt)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/admin/books -b /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/cookies.txt)",
+      "Bash(curl -s http://localhost:3001/admin/books -b /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/cookies.txt -o /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/books.html)",
+      "Bash(curl -s -o /dev/null -w 'login: %{http_code}\\\\n' -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"hitechsuite@gmail.com\",\"password\":\"ChangeMe123!\"}' -c /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/cookies.txt)",
+      "Bash(curl -s -o /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/books.html -w 'books page: %{http_code}\\\\n' http://localhost:3000/admin/books -b /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/cookies.txt)",
+      "Bash(python3 -)",
+      "Bash(curl -s http://localhost:3000/books)",
+      "Bash(curl -s http://localhost:3000/books/the-weight-of-silence)",
+      "WebFetch(domain:markmanson.net)",
+      "Bash(curl -s -o /tmp/claude-1000/-home-egoras-4--bin-author-ebook-platform/e94622f4-0d28-424a-a7e2-89943195d82a/scratchpad/home.html -w \"status %{http_code}\\\\n\" http://localhost:3001/)",
+      "Bash(curl -sL -A \"Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36 Chrome/120 Safari/537.36\" https://markmanson.net/ -o mm.html)",
+      "Bash(grep -oiE '\\(Georgia|Freight|Tiempos|Lora|PT Serif|Merriweather|Newsreader|serif\\)[^;{}\"]{0,30}' mm.html)",
+      "Bash(grep -oiE 'font-family:[^;}]{1,60}' mm.html)",
+      "Bash(grep -oiE 'body\\\\{[^}]{0,120}' mm.html)"
+    ]
+  }
+}
