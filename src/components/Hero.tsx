@@ -1,43 +1,57 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Book } from "@/types/book";
 
-export default function Hero() {
-  return (
-    <section className="section flex flex-col items-center gap-12">
-      <h1 className="text-center text-4xl font-extrabold tracking-tight text-cream-50 md:text-6xl">
-        Hi, I&apos;m <span className="text-accent">Ihuoma Iroaganachi</span>
-      </h1>
-
-      <div className="grid w-full grid-cols-1 items-center gap-10 md:grid-cols-2">
-        <p className="order-2 font-serif text-lg leading-relaxed text-cream-50/90 md:order-1 md:text-xl">
-          I write books that cut through the noise — practical, sharp, and
-          occasionally uncomfortable. Stories about family, identity, and the
-          quiet truths we carry. Some people call them a slow burn. Others say
-          they couldn&apos;t put them down. Read on and decide for yourself.
+export default function Hero({ book }: { book?: Book }) {
+  // Featured book takes the spotlight (cover left, details right). If there is
+  // no book yet, fall back to a simple author introduction.
+  if (!book) {
+    return (
+      <section className="section text-center">
+        <h1 className="text-4xl font-medium tracking-wide text-noir md:text-6xl">
+          {process.env.NEXT_PUBLIC_SITE_NAME || "Your Name"}
+        </h1>
+        <p className="mx-auto mt-6 max-w-xl font-serif text-lg italic leading-relaxed text-noir-muted">
+          Books, stories, and writings. New work coming soon.
         </p>
+      </section>
+    );
+  }
 
-        <div className="order-1 mx-auto md:order-2">
-          {/* Placeholder headshot — swap /public/author-photo.jpg for the real one */}
-          <div className="relative h-56 w-56 overflow-hidden rounded-full ring-4 ring-accent md:h-72 md:w-72">
-            <Image
-              src="/author-photo.jpg"
-              alt="Author portrait"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </div>
+  return (
+    <section className="section grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-16">
+      <div className="relative mx-auto aspect-[2/3] w-full max-w-md overflow-hidden md:mx-0">
+        <Image src={book.coverImageUrl} alt={book.title} fill className="object-cover" priority />
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4">
-        <Link href="/books" className="btn-light">
-          Browse My Books
-        </Link>
-        <Link href="/#newsletter" className="btn-outline">
-          Join the Newsletter
-        </Link>
+      <div className="flex flex-col">
+        <h1 className="text-5xl uppercase leading-[1.05] tracking-[0.06em] text-noir md:text-7xl">
+          {book.title}
+        </h1>
+
+        <p className="mt-8 max-w-md font-serif text-lg italic leading-relaxed text-noir/80">
+          {book.description}
+        </p>
+
+        {book.publishedDate && (
+          <p className="mt-10 font-display text-2xl italic tracking-wide text-accent md:text-3xl">
+            {formatReleaseLine(book.publishedDate)}
+          </p>
+        )}
+
+        <div className="mt-8">
+          <Link href={`/books/${book.slug}`} className="btn-accent">
+            Learn More
+          </Link>
+        </div>
       </div>
     </section>
   );
+}
+
+function formatReleaseLine(dateStr: string): string {
+  const d = new Date(dateStr);
+  if (Number.isNaN(d.getTime())) return dateStr;
+  const label = d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  return d.getTime() > Date.now() ? `Coming ${label}` : `Available Now`;
 }

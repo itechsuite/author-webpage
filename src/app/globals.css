@@ -6,38 +6,196 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Bright, beautiful lavender → white → pink gradient canvas */
 body {
-  background-color: theme("colors.ink.900");
-  color: theme("colors.cream.50");
+  background: linear-gradient(135deg, #f6ebff 0%, #ffffff 45%, #ffe6f4 100%);
+  background-attachment: fixed;
+  color: theme("colors.noir.DEFAULT");
   -webkit-font-smoothing: antialiased;
 }
 
-/* Montserrat display headings, à la markmanson.net */
+/* Elegant Cormorant Garamond headings */
 h1,
 h2,
 h3 {
   font-family: theme("fontFamily.display");
-  letter-spacing: -0.01em;
+  font-weight: 500;
 }
 
-/* Pill buttons, uppercase Montserrat */
+/* Purple → pink gradient text for feature headings */
+.text-gradient {
+  @apply bg-gradient-to-r from-accent to-pink bg-clip-text text-transparent;
+}
+
+/* Rectangular, letter-spaced serif buttons — purple → pink gradient */
 .btn-accent {
-  @apply inline-flex items-center justify-center rounded-full bg-accent px-7 py-3 font-display text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-hover;
-}
-
-.btn-light {
-  @apply inline-flex items-center justify-center rounded-full bg-cream-50 px-7 py-3 font-display text-sm font-bold uppercase tracking-wide text-ink-900 transition-colors hover:bg-white;
+  @apply inline-flex items-center justify-center rounded-sm bg-gradient-to-r from-accent to-pink px-9 py-4 font-display text-sm uppercase tracking-[0.25em] text-white shadow-sm transition-all hover:from-accent-hover hover:to-pink-hover hover:shadow-md;
 }
 
 .btn-outline {
-  @apply inline-flex items-center justify-center rounded-full border-2 border-cream-50/30 px-7 py-3 font-display text-sm font-bold uppercase tracking-wide text-cream-50 transition-colors hover:border-cream-50;
+  @apply inline-flex items-center justify-center rounded-sm border border-accent/40 px-9 py-4 font-display text-sm uppercase tracking-[0.25em] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-white;
 }
 
 .section {
-  @apply mx-auto w-full max-w-content px-6 py-20 md:py-24;
+  @apply mx-auto w-full max-w-content px-6 py-20 md:py-28;
 }
 
-/* Dotted section divider, like the reference site */
-.divider-dotted {
-  @apply mx-auto max-w-content border-0 border-t border-dashed border-cream-50/20;
+/* Thin rule used between sections */
+.divider-thin {
+  @apply mx-auto max-w-content border-0 border-t border-linen-200;
+}
+
+/* Tiptap admin editor (dark theme) */
+.prose-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: rgba(247, 245, 242, 0.35);
+}
+.prose-editor .ProseMirror {
+  outline: none;
+}
+.prose-editor .ProseMirror h1,
+.prose-editor .ProseMirror h2,
+.prose-editor .ProseMirror h3 {
+  font-family: theme("fontFamily.display");
+  font-weight: 600;
+  margin: 1em 0 0.4em;
+}
+.prose-editor .ProseMirror h1 { font-size: 2em; }
+.prose-editor .ProseMirror h2 { font-size: 1.6em; }
+.prose-editor .ProseMirror h3 { font-size: 1.3em; }
+.prose-editor .ProseMirror p { margin: 0.6em 0; line-height: 1.7; }
+.prose-editor .ProseMirror ul,
+.prose-editor .ProseMirror ol {
+  padding-left: 1.4em;
+  margin: 0.6em 0;
+}
+.prose-editor .ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0.4em;
+}
+.prose-editor .ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+.prose-editor .ProseMirror blockquote {
+  border-left: 3px solid theme("colors.accent.DEFAULT");
+  padding-left: 1em;
+  margin: 0.8em 0;
+  color: rgba(247, 245, 242, 0.7);
+  font-style: italic;
+}
+.prose-editor .ProseMirror pre {
+  background: theme("colors.ink.900");
+  border-radius: 6px;
+  padding: 0.8em 1em;
+  overflow-x: auto;
+}
+.prose-editor .ProseMirror code {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+.prose-editor .ProseMirror img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 0.6em 0;
+}
+.prose-editor .ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.8em 0;
+}
+.prose-editor .ProseMirror td,
+.prose-editor .ProseMirror th {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.4em 0.6em;
+}
+.prose-editor .ProseMirror hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 1.5em 0;
+}
+.prose-editor .ProseMirror a {
+  color: theme("colors.accent.DEFAULT");
+  text-decoration: underline;
+}
+
+/* Public blog post content (light theme, mirrors Tiptap output) */
+.prose-content h1,
+.prose-content h2,
+.prose-content h3 {
+  font-family: theme("fontFamily.display");
+  font-weight: 500;
+  margin: 1.2em 0 0.5em;
+}
+.prose-content h1 { font-size: 2.2em; }
+.prose-content h2 { font-size: 1.7em; }
+.prose-content h3 { font-size: 1.35em; }
+.prose-content p {
+  margin: 1em 0;
+  line-height: 1.85;
+  font-family: theme("fontFamily.serif");
+}
+.prose-content ul,
+.prose-content ol {
+  padding-left: 1.6em;
+  margin: 1em 0;
+  font-family: theme("fontFamily.serif");
+}
+.prose-content ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0.4em;
+}
+.prose-content ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+.prose-content blockquote {
+  border-left: 2px solid theme("colors.accent.DEFAULT");
+  padding-left: 1.2em;
+  margin: 1.4em 0;
+  font-style: italic;
+  color: theme("colors.noir.muted");
+}
+.prose-content pre {
+  background: theme("colors.noir.DEFAULT");
+  color: theme("colors.linen.50");
+  border-radius: 6px;
+  padding: 1em 1.2em;
+  overflow-x: auto;
+}
+.prose-content code {
+  background: theme("colors.linen.50");
+  border-radius: 3px;
+  padding: 0.15em 0.4em;
+}
+.prose-content img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1.4em 0;
+}
+.prose-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.4em 0;
+}
+.prose-content td,
+.prose-content th {
+  border: 1px solid theme("colors.linen.200");
+  padding: 0.5em 0.8em;
+}
+.prose-content hr {
+  border: none;
+  border-top: 1px solid theme("colors.linen.200");
+  margin: 2em 0;
+}
+.prose-content a {
+  color: theme("colors.accent.DEFAULT");
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }

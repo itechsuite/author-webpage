@@ -17,9 +17,9 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
     <>
       <Navbar />
       <main>
-        <div className="section grid grid-cols-1 gap-12 md:grid-cols-2">
+        <div className="section grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-[2/3] w-full max-w-sm overflow-hidden rounded-lg border border-ink-700 bg-ink-800 md:max-w-none">
+            <div className="relative aspect-[2/3] w-full max-w-md overflow-hidden bg-linen-100 md:max-w-none">
               <Image src={book.coverImageUrl} alt={book.title} fill className="object-cover" priority />
             </div>
 
@@ -28,7 +28,7 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
                 {book.images.map((src, i) => (
                   <div
                     key={src}
-                    className="relative h-24 w-16 shrink-0 overflow-hidden rounded-md border border-ink-700 bg-ink-800"
+                    className="relative h-24 w-16 shrink-0 overflow-hidden border border-linen-200 bg-linen-100"
                   >
                     <Image src={src} alt={`${book.title} — image ${i + 1}`} fill className="object-cover" />
                   </div>
@@ -39,44 +39,44 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
 
           <div className="flex flex-col gap-6">
             <div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-cream-50 md:text-5xl">{book.title}</h1>
-              {book.subtitle && <p className="mt-3 font-serif text-lg text-cream-50/60">{book.subtitle}</p>}
+              <h1 className="text-4xl uppercase leading-tight tracking-[0.06em] text-noir md:text-6xl">{book.title}</h1>
+              {book.subtitle && <p className="mt-4 font-serif text-lg italic text-noir-muted">{book.subtitle}</p>}
             </div>
 
-            <p className="whitespace-pre-line font-serif text-lg leading-relaxed text-cream-50/85">{book.description}</p>
+            <p className="whitespace-pre-line font-serif text-lg leading-relaxed text-noir/80">{book.description}</p>
 
             {book.previewVideoUrl && (
-              <video controls className="w-full rounded-lg border border-ink-700" src={book.previewVideoUrl} />
+              <video controls className="w-full border border-linen-200" src={book.previewVideoUrl} />
             )}
 
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-2 font-serif text-sm text-cream-50/85">
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-linen-200 pt-6 font-serif text-sm text-noir/80">
               {book.genre && (
                 <>
-                  <dt className="text-cream-50/50">Genre</dt>
+                  <dt className="uppercase tracking-wide text-noir-muted">Genre</dt>
                   <dd>{book.genre}</dd>
                 </>
               )}
               {book.language && (
                 <>
-                  <dt className="text-cream-50/50">Language</dt>
+                  <dt className="uppercase tracking-wide text-noir-muted">Language</dt>
                   <dd>{book.language}</dd>
                 </>
               )}
               {book.pageCount && (
                 <>
-                  <dt className="text-cream-50/50">Length</dt>
+                  <dt className="uppercase tracking-wide text-noir-muted">Length</dt>
                   <dd>{book.pageCount} pages</dd>
                 </>
               )}
               {book.publishedDate && (
                 <>
-                  <dt className="text-cream-50/50">Published</dt>
+                  <dt className="uppercase tracking-wide text-noir-muted">Published</dt>
                   <dd>{book.publishedDate}</dd>
                 </>
               )}
               {book.isbn && (
                 <>
-                  <dt className="text-cream-50/50">ISBN</dt>
+                  <dt className="uppercase tracking-wide text-noir-muted">ISBN</dt>
                   <dd>{book.isbn}</dd>
                 </>
               )}
@@ -87,7 +87,7 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
                 {book.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-ink-700 bg-ink-800 px-3 py-1 font-display text-xs uppercase tracking-wide text-cream-50/60"
+                    className="border border-linen-200 px-3 py-1 font-serif text-xs uppercase tracking-wide text-noir-muted"
                   >
                     {tag}
                   </span>
@@ -95,8 +95,8 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
               </div>
             )}
 
-            <div className="mt-4 flex items-center gap-6">
-              <span className="text-3xl font-bold text-accent">
+            <div className="mt-4 flex items-center gap-8">
+              <span className="font-display text-4xl text-accent">
                 {formatPrice(book.price, book.currency)}
               </span>
               {/* Wire this button up to your payment processor of choice

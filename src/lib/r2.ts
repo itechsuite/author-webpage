@@ -35,7 +35,7 @@ export async function deleteObject(key: string) {
 }
 
 /** Builds a namespaced object key, e.g. covers/1699999-my-book.jpg */
-export function buildObjectKey(folder: "covers" | "previews" | "files", filename: string) {
+export function buildObjectKey(folder: "covers" | "previews" | "files" | "blog", filename: string) {
   const safeName = filename.replace(/[^a-zA-Z0-9.\-_]/g, "-").toLowerCase();
   return `${folder}/${Date.now()}-${safeName}`;
 }

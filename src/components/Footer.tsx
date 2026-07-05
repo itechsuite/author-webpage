@@ -1,53 +1,36 @@
 import Link from "next/link";
 
-const columns = [
-  [
-    { href: "/books", label: "Books" },
-    { href: "/#about", label: "About" },
-    { href: "/#newsletter", label: "Newsletter" },
-  ],
-  [
-    { href: "/books", label: "Shop" },
-    { href: "/admin/login", label: "Admin" },
-  ],
+const footerLinks = [
+  { href: "/books", label: "Shop" },
+  { href: "/about", label: "About" },
+  { href: "/newsletter", label: "Newsletter" },
+  { href: "/contact", label: "Contact" },
+  { href: "/admin/login", label: "Admin" },
 ];
 
 export default function Footer() {
   const name = process.env.NEXT_PUBLIC_SITE_NAME || "Your Name";
 
   return (
-    <footer className="border-t border-ink-700 bg-ink-950">
-      <div className="mx-auto max-w-content px-6 py-16">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-          <div className="max-w-md">
-            <p className="font-display text-xl font-extrabold uppercase tracking-widest text-cream-50">
-              {name}
-            </p>
-            <p className="mt-5 font-serif leading-relaxed text-cream-50/70">
-              Author of stories about family, identity, and the quiet truths we
-              carry. New books, essays, and ideas — delivered straight to your
-              inbox.
-            </p>
-          </div>
+    <footer className="border-t border-linen-200 bg-linen-50">
+      <div className="mx-auto flex max-w-content flex-col items-center gap-8 px-6 py-16 text-center">
+        <Link href="/" className="font-display text-3xl font-medium tracking-wide text-accent">
+          {name}
+        </Link>
 
-          <div className="grid grid-cols-2 gap-8">
-            {columns.map((col, i) => (
-              <nav key={i} className="flex flex-col gap-3">
-                {col.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="font-display text-sm font-bold uppercase tracking-wide text-cream-50/70 transition-colors hover:text-accent"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            ))}
-          </div>
-        </div>
+        <nav className="flex flex-wrap justify-center gap-x-8 gap-y-3">
+          {footerLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="font-serif text-sm uppercase tracking-[0.15em] text-noir/70 transition-colors hover:text-accent"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
-        <p className="mt-12 font-serif text-xs text-cream-50/40">
+        <p className="font-serif text-xs italic text-noir-muted">
           © {new Date().getFullYear()} {name}. All rights reserved.
         </p>
       </div>

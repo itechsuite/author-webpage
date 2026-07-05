@@ -8,32 +8,47 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Palette read directly from markmanson.net:
-        // warm charcoal canvas, near-white serif text, vivid orange accent.
+        // Bright purple / pink / white palette.
+        linen: {
+          DEFAULT: "#ffffff",
+          50: "#faf3ff", // soft lavender-white band
+          100: "#fdeaf6", // soft pink band
+          200: "#f0dcfb", // lavender hairline borders
+        },
+        noir: {
+          DEFAULT: "#2d1b36", // deep plum near-black text/headings
+          muted: "#7a6a82", // muted purple-grey body/meta
+        },
+        accent: {
+          DEFAULT: "#9333ea", // vivid purple (logo, buttons, accents)
+          hover: "#7e22ce",
+        },
+        pink: {
+          DEFAULT: "#ec4899", // bright pink secondary
+          hover: "#db2777",
+        },
+        // Dark scale retained for the self-contained admin area.
         ink: {
           950: "#1c1a1a",
-          900: "#252121", // main background (Manson's --color__background-body dark)
-          800: "#2c2929", // raised cards / inputs
-          700: "#3a3636", // hairline borders
+          900: "#252121",
+          800: "#2c2929",
+          700: "#3a3636",
           600: "#4a4545",
         },
         cream: {
-          50: "#f7f5f2", // primary near-white text
+          50: "#f7f5f2",
           100: "#efece9",
-        },
-        accent: {
-          DEFAULT: "#f26822", // Manson brand orange
-          hover: "#a74414", // darker orange (hover / shadow)
         },
       },
       fontFamily: {
-        // Montserrat for display/nav/buttons, Source Serif for body copy.
-        display: ["var(--font-display)", "Montserrat", "system-ui", "sans-serif"],
-        sans: ["var(--font-display)", "Montserrat", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Source Serif Pro", "Georgia", "serif"],
+        // Cormorant Garamond = display/headings/logo (≈ Adobe Caslon / Mrs Eaves),
+        // EB Garamond = body copy (≈ Minion Pro).
+        display: ["var(--font-display)", "Cormorant Garamond", "Georgia", "serif"],
+        serif: ["var(--font-serif)", "EB Garamond", "Georgia", "serif"],
+        sans: ["var(--font-serif)", "EB Garamond", "Georgia", "serif"],
       },
       maxWidth: {
-        content: "1120px",
+        content: "1200px",
       },
     },
   },

@@ -7,7 +7,7 @@ import { getSession } from "@/lib/auth";
  * to R2 from the browser with a PUT request. Nothing passes through our
  * server, so this scales fine for large cover images and preview videos.
  *
- * Body: { filename: string, contentType: string, folder: "covers" | "previews" | "files" }
+ * Body: { filename: string, contentType: string, folder: "covers" | "previews" | "files" | "blog" }
  */
 export async function POST(req: NextRequest) {
   const session = await getSession();

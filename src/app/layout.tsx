@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Montserrat, Source_Serif_4 } from "next/font/google";
+import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import "./globals.css";
 
-// Montserrat = display/nav/buttons, Source Serif = body copy (per markmanson.net).
-const display = Montserrat({
+// Cormorant Garamond = display/headings/logo, EB Garamond = body copy
+// (free stand-ins for christyannejones.com's Adobe Caslon Pro / Minion Pro).
+const display = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
 });
 
-const serif = Source_Serif_4({
+const serif = EB_Garamond({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
@@ -20,7 +22,7 @@ const serif = Source_Serif_4({
 
 export const metadata: Metadata = {
   title: `${process.env.NEXT_PUBLIC_SITE_NAME || "Your Name"} — Author`,
-  description: "Books, ideas, and the occasional uncomfortable truth.",
+  description: "Books, stories, and writings.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
 };
 

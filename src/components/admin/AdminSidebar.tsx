@@ -7,6 +7,7 @@ import clsx from "clsx";
 const links = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/books", label: "Books" },
+  { href: "/admin/blog", label: "Blog" },
 ];
 
 export default function AdminSidebar() {
