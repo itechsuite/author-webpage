@@ -9,11 +9,8 @@ export const metadata: Metadata = {
   title: `About — ${process.env.NEXT_PUBLIC_SITE_NAME || "Author"}`,
 };
 
-const glance = [
-  { label: "Based in", value: "Lagos, Nigeria" },
-  { label: "Writes", value: "Literary Fiction" },
-  { label: "Debut Novel", value: "The Weight of Silence" },
-];
+const bio =
+  "Telling stories is the oldest art form in human history, and to date, it has not lost its ability to entertain, inspire, and expand our imagination. I write stories that inspire readers to overcome challenges and rise above their limitations to reach for greater heights. I also write about God's grace and redemption. My non-fiction books cut across different genres and age groups. I write for adults, young adults, and children.";
 
 export default function AboutPage() {
   const name = process.env.NEXT_PUBLIC_SITE_NAME || "Your Name";
@@ -29,45 +26,8 @@ export default function AboutPage() {
           <div className="order-2 md:order-1">
             {/* Spice: oversized decorative drop-cap on the opening line */}
             <p className="font-serif text-lg leading-relaxed text-noir/85 [&::first-letter]:float-left [&::first-letter]:mr-3 [&::first-letter]:mt-1 [&::first-letter]:font-display [&::first-letter]:text-7xl [&::first-letter]:font-medium [&::first-letter]:leading-[0.8] [&::first-letter]:text-accent">
-              {name} is a novelist and storyteller whose work moves between the
-              intimate and the epic — tracing families, memory, and the quiet
-              truths we carry across generations.
+              {bio}
             </p>
-
-            <p className="mt-6 font-serif text-lg leading-relaxed text-noir/85">
-              Her debut novel, <em>The Weight of Silence</em>, follows three
-              generations of a Lagos family as a long-buried secret resurfaces
-              during a homecoming. Her short fiction and essays have explored
-              West African markets, unsent letters, and the small gods of
-              everyday life.
-            </p>
-
-            {/* Spice: pull-quote with a purple rule */}
-            <blockquote className="my-10 border-l-2 border-accent pl-6">
-              <p className="font-display text-2xl italic leading-snug text-noir md:text-3xl">
-                “I write the stories I couldn&apos;t find on the shelf — the ones
-                that stay long after the last page.”
-              </p>
-            </blockquote>
-
-            <p className="font-serif text-lg leading-relaxed text-noir/85">
-              When she isn&apos;t writing, she is reading two books at once,
-              collecting other people&apos;s letters, and chasing the perfect
-              cup of tea. She believes the best stories are a little dangerous —
-              nothing, after all, is more dangerous than a woman with secrets.
-            </p>
-
-            {/* Spice: at-a-glance strip */}
-            <dl className="mt-12 grid grid-cols-1 gap-6 border-t border-linen-200 pt-8 sm:grid-cols-3">
-              {glance.map((g) => (
-                <div key={g.label}>
-                  <dt className="font-serif text-xs uppercase tracking-[0.2em] text-noir-muted">
-                    {g.label}
-                  </dt>
-                  <dd className="mt-2 font-display text-xl text-noir">{g.value}</dd>
-                </div>
-              ))}
-            </dl>
 
             <div className="mt-12 flex flex-wrap items-center gap-6">
               <Link href="/books" className="btn-accent">

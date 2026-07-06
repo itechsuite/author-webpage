@@ -3,11 +3,12 @@ export default function NewsletterSignup() {
     <section id="newsletter" className="border-t border-linen-200">
       <div className="section flex flex-col items-center text-center">
         <h2 className="text-gradient text-4xl uppercase tracking-[0.15em] md:text-5xl">
-          Stay in Touch
+          &quot;You Can&quot; Newsletter
         </h2>
         <p className="mx-auto mt-6 max-w-xl font-serif text-xl italic leading-relaxed text-noir-muted">
-          Join the list for new releases, writings, and the occasional letter
-          from behind the pages.
+          Enter your email below to sign up for my free &quot;You Can&quot;
+          Newsletter. It is just a two-minute inspirational note that will
+          impact your life.
         </p>
 
         <form className="mt-10 flex w-full max-w-lg flex-col gap-3 sm:flex-row sm:items-center">

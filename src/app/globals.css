@@ -6,9 +6,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Bright, beautiful lavender → white → pink gradient canvas */
+/* Warm paper → white → clay gradient canvas */
 body {
-  background: linear-gradient(135deg, #f6ebff 0%, #ffffff 45%, #ffe6f4 100%);
+  background: linear-gradient(135deg, #f7efe4 0%, #ffffff 45%, #f5e6da 100%);
   background-attachment: fixed;
   color: theme("colors.noir.DEFAULT");
   -webkit-font-smoothing: antialiased;
@@ -22,12 +22,12 @@ h3 {
   font-weight: 500;
 }
 
-/* Purple → pink gradient text for feature headings */
+/* Clay → sage gradient text for feature headings */
 .text-gradient {
   @apply bg-gradient-to-r from-accent to-pink bg-clip-text text-transparent;
 }
 
-/* Rectangular, letter-spaced serif buttons — purple → pink gradient */
+/* Rectangular, letter-spaced serif buttons — clay → sage gradient */
 .btn-accent {
   @apply inline-flex items-center justify-center rounded-sm bg-gradient-to-r from-accent to-pink px-9 py-4 font-display text-sm uppercase tracking-[0.25em] text-white shadow-sm transition-all hover:from-accent-hover hover:to-pink-hover hover:shadow-md;
 }

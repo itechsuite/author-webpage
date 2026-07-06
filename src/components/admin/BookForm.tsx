@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import FileUploader from "./FileUploader";
-import type { Book } from "@/types/book";
+import type { Book, ExternalSource } from "@/types/book";
 
 interface Props {
   book?: Book; // when present, form is in "edit" mode
@@ -16,6 +16,7 @@ export default function BookForm({ book }: Props) {
     subtitle: book?.subtitle || "",
     description: book?.description || "",
     coverImageUrl: book?.coverImageUrl || "",
+    fullBookCoverUrl: book?.fullBookCoverUrl || "",
     previewVideoUrl: book?.previewVideoUrl || "",
     fileUrl: book?.fileUrl || "",
     price: book?.price ?? 5000,
@@ -23,12 +24,46 @@ export default function BookForm({ book }: Props) {
     format: book?.format || "ebook",
     published: book?.published ?? false,
     featured: book?.featured ?? false,
+    externalSources: book?.externalSources ?? [],
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function updateSource(index: number, key: keyof ExternalSource, value: string) {
+    setForm((prev) => ({
+      ...prev,
+      externalSources: prev.externalSources.map((s, i) =>
+        i === index ? { ...s, [key]: value } : s
+      ),
+    }));
+  }
+
+  function addSource() {
+    setForm((prev) => ({
+      ...prev,
+      externalSources: [...prev.externalSources, { source: "", link: "" }],
+    }));
+  }
+
+  function removeSource(index: number) {
+    setForm((prev) => ({
+      ...prev,
+      externalSources: prev.externalSources.filter((_, i) => i !== index),
+    }));
+  }
+
+  function moveSource(index: number, direction: -1 | 1) {
+    setForm((prev) => {
+      const next = [...prev.externalSources];
+      const target = index + direction;
+      if (target < 0 || target >= next.length) return prev;
+      [next[index], next[target]] = [next[target], next[index]];
+      return { ...prev, externalSources: next };
+    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -95,6 +130,14 @@ export default function BookForm({ book }: Props) {
         accept="image/*"
         value={form.coverImageUrl}
         onUploaded={(url) => update("coverImageUrl", url)}
+      />
+
+      <FileUploader
+        label="Full Book Cover (uncropped front + spine + back)"
+        folder="covers"
+        accept="image/*"
+        value={form.fullBookCoverUrl}
+        onUploaded={(url) => update("fullBookCoverUrl", url)}
       />
 
       <FileUploader
@@ -167,6 +210,78 @@ export default function BookForm({ book }: Props) {
           />
           Featured on homepage
         </label>
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm text-cream-50/70">
+            External Sources (Amazon, Barnes &amp; Noble, etc.)
+          </label>
+          <button
+            type="button"
+            onClick={addSource}
+            className="rounded-md border border-white/10 px-3 py-1 text-xs uppercase tracking-wide text-cream-50/70 transition-colors hover:border-accent hover:text-accent"
+          >
+            + Add Source
+          </button>
+        </div>
+
+        {form.externalSources.length === 0 && (
+          <p className="text-xs italic text-cream-50/40">No external sources added yet.</p>
+        )}
+
+        <div className="space-y-3">
+          {form.externalSources.map((s, i) => (
+            <div key={i} className="flex items-start gap-2 rounded-md border border-white/10 p-3">
+              <div className="grid flex-1 grid-cols-1 gap-2 sm:grid-cols-2">
+                <input
+                  required
+                  placeholder="Source name (e.g. Amazon)"
+                  value={s.source}
+                  onChange={(e) => updateSource(i, "source", e.target.value)}
+                  className="w-full rounded-md border border-white/10 bg-ink-950 px-3 py-2 text-sm text-cream-50 focus:border-accent focus:outline-none"
+                />
+                <input
+                  required
+                  type="url"
+                  placeholder="https://..."
+                  value={s.link}
+                  onChange={(e) => updateSource(i, "link", e.target.value)}
+                  className="w-full rounded-md border border-white/10 bg-ink-950 px-3 py-2 text-sm text-cream-50 focus:border-accent focus:outline-none"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <button
+                  type="button"
+                  onClick={() => moveSource(i, -1)}
+                  disabled={i === 0}
+                  aria-label="Move up"
+                  className="rounded border border-white/10 px-2 py-1 text-xs text-cream-50/70 transition-colors hover:border-accent hover:text-accent disabled:opacity-30"
+                >
+                  ↑
+                </button>
+                <button
+                  type="button"
+                  onClick={() => moveSource(i, 1)}
+                  disabled={i === form.externalSources.length - 1}
+                  aria-label="Move down"
+                  className="rounded border border-white/10 px-2 py-1 text-xs text-cream-50/70 transition-colors hover:border-accent hover:text-accent disabled:opacity-30"
+                >
+                  ↓
+                </button>
+                <button
+                  type="button"
+                  onClick={() => removeSource(i)}
+                  aria-label="Remove source"
+                  className="rounded border border-white/10 px-2 py-1 text-xs text-red-400/80 transition-colors hover:border-red-400 hover:text-red-400"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}

@@ -8,24 +8,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Bright purple / pink / white palette.
+        // "Burnt Clay" palette — sun-baked rust, bark, and dusty sage.
         linen: {
           DEFAULT: "#ffffff",
-          50: "#faf3ff", // soft lavender-white band
-          100: "#fdeaf6", // soft pink band
-          200: "#f0dcfb", // lavender hairline borders
+          50: "#f5efe6", // warm paper band
+          100: "#f1e3d5", // soft clay-tinted band
+          200: "#e4d8c8", // warm hairline borders
         },
         noir: {
-          DEFAULT: "#2d1b36", // deep plum near-black text/headings
-          muted: "#7a6a82", // muted purple-grey body/meta
+          DEFAULT: "#241e1a", // deep bark near-black text/headings
+          muted: "#8a7d70", // muted warm-grey body/meta
         },
         accent: {
-          DEFAULT: "#9333ea", // vivid purple (logo, buttons, accents)
-          hover: "#7e22ce",
+          DEFAULT: "#b5502e", // burnt clay / rust (logo, buttons, accents)
+          hover: "#96401f",
         },
         pink: {
-          DEFAULT: "#ec4899", // bright pink secondary
-          hover: "#db2777",
+          DEFAULT: "#8b9574", // dusty sage secondary
+          hover: "#76825f",
         },
         // Dark scale retained for the self-contained admin area.
         ink: {

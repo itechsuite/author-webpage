@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 
 const perks = [
   {
-    title: "New Releases First",
-    body: "Cover reveals, pre-orders, and release dates before anyone else.",
+    title: "Two Minutes, Once in a While",
+    body: "A short, focused inspirational note — nothing long, nothing that eats your day.",
   },
   {
-    title: "Letters from the Desk",
-    body: "Short, honest notes on writing, reading, and the work in progress.",
+    title: "Encouragement That Lasts",
+    body: "Stories and reminders meant to help you overcome challenges and rise above your limitations.",
   },
   {
-    title: "Readers-Only Extras",
-    body: "Deleted scenes, book recommendations, and the occasional giveaway.",
+    title: "Straight From the Source",
+    body: "The same reflections that appear on the blog, delivered directly to your inbox.",
   },
 ];
 
@@ -29,7 +29,7 @@ export default function NewsletterPage() {
       <main>
         <PageHeading
           title="Newsletter"
-          intro="A quiet letter, once in a while — never noise."
+          intro="The &quot;You Can&quot; Newsletter — a quiet, inspirational note, once in a while."
         />
 
         <section className="section grid grid-cols-1 gap-16 !pt-16 md:grid-cols-2">
@@ -52,9 +52,13 @@ export default function NewsletterPage() {
 
           {/* Signup card */}
           <div className="flex flex-col justify-center bg-linen-50 p-10 md:p-14">
-            <h2 className="text-4xl uppercase tracking-[0.12em] text-noir">Join the List</h2>
+            <h2 className="text-4xl uppercase tracking-[0.12em] text-noir">
+              &quot;You Can&quot; Newsletter
+            </h2>
             <p className="mt-4 font-serif text-lg italic leading-relaxed text-noir-muted">
-              Enter your email below. Unsubscribe anytime — no hard feelings.
+              Enter your email below to sign up for my free &quot;You Can&quot;
+              Newsletter. It is just a two-minute inspirational note that
+              will impact your life.
             </p>
 
             <form className="mt-8 flex flex-col gap-4">

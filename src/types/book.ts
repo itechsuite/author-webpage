@@ -1,3 +1,8 @@
+export interface ExternalSource {
+  source: string; // retailer/platform name, e.g. "Amazon", "Barnes & Noble"
+  link: string;
+}
+
 export interface Book {
   _id?: string;
   title: string;
@@ -5,7 +10,9 @@ export interface Book {
   subtitle?: string;
   description: string;
   coverImageUrl: string;
+  fullBookCoverUrl?: string; // complete, uncropped wrap cover (front + spine + back)
   images?: string[]; // additional gallery images (back cover, sample spreads, etc.)
+  externalSources?: ExternalSource[]; // other platforms where this book is available
   previewVideoUrl?: string; // optional video cover / book trailer
   price: number; // in smallest currency unit-agnostic decimal, e.g. 14.99
   currency: string; // "USD"

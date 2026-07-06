@@ -1,57 +1,45 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Book } from "@/types/book";
 
-export default function Hero({ book }: { book?: Book }) {
-  // Featured book takes the spotlight (cover left, details right). If there is
-  // no book yet, fall back to a simple author introduction.
-  if (!book) {
-    return (
-      <section className="section text-center">
-        <h1 className="text-4xl font-medium tracking-wide text-noir md:text-6xl">
-          {process.env.NEXT_PUBLIC_SITE_NAME || "Your Name"}
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl font-serif text-lg italic leading-relaxed text-noir-muted">
-          Books, stories, and writings. New work coming soon.
-        </p>
-      </section>
-    );
-  }
+const bioHighlight =
+  "Telling stories is the oldest art form in human history, and to date, it has not lost its ability to entertain, inspire, and expand our imagination.";
+
+export default function Hero() {
+  const name = process.env.NEXT_PUBLIC_SITE_NAME || "Your Name";
 
   return (
     <section className="section grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-16">
-      <div className="relative mx-auto aspect-[2/3] w-full max-w-md overflow-hidden md:mx-0">
-        <Image src={book.coverImageUrl} alt={book.title} fill className="object-cover" priority />
-      </div>
-
-      <div className="flex flex-col">
-        <h1 className="text-5xl uppercase leading-[1.05] tracking-[0.06em] text-noir md:text-7xl">
-          {book.title}
+      <div className="order-2 flex flex-col md:order-1">
+        <h1 className="font-display text-5xl font-medium tracking-wide text-noir md:text-6xl">
+          {name}
         </h1>
 
-        <p className="mt-8 max-w-md font-serif text-lg italic leading-relaxed text-noir/80">
-          {book.description}
+        <p className="mt-8 max-w-md font-serif text-xl italic leading-relaxed text-noir/80">
+          {bioHighlight}
         </p>
 
-        {book.publishedDate && (
-          <p className="mt-10 font-display text-2xl italic tracking-wide text-accent md:text-3xl">
-            {formatReleaseLine(book.publishedDate)}
-          </p>
-        )}
-
         <div className="mt-8">
-          <Link href={`/books/${book.slug}`} className="btn-accent">
-            Learn More
+          <Link href="/about" className="btn-outline">
+            Read More
           </Link>
+        </div>
+      </div>
+
+      <div className="relative order-1 mx-auto w-full max-w-sm md:order-2 md:mx-0 md:max-w-none">
+        <div
+          aria-hidden
+          className="absolute -right-4 -top-4 h-full w-full rounded-t-full bg-accent/15 md:-right-6 md:-top-6"
+        />
+        <div className="group relative aspect-[3/4] w-full overflow-hidden rounded-t-full bg-linen-100 ring-1 ring-linen-200">
+          <Image
+            src="https://pub-2f8f7122da514161b38cdfcd7fecfb26.r2.dev/covers/1783127504737-main-author.jpeg"
+            alt={`Portrait of ${name}`}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            priority
+          />
         </div>
       </div>
     </section>
   );
-}
-
-function formatReleaseLine(dateStr: string): string {
-  const d = new Date(dateStr);
-  if (Number.isNaN(d.getTime())) return dateStr;
-  const label = d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-  return d.getTime() > Date.now() ? `Coming ${label}` : `Available Now`;
 }

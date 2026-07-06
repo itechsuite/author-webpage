@@ -9,11 +9,15 @@ const bookSchema = z.object({
   subtitle: z.string().optional(),
   description: z.string().min(1),
   coverImageUrl: z.string().url(),
+  fullBookCoverUrl: z.string().url().optional().or(z.literal("")),
   previewVideoUrl: z.string().url().optional().or(z.literal("")),
   price: z.number().nonnegative(),
   currency: z.string().default("NGN"),
   format: z.enum(["ebook", "audiobook", "bundle"]),
   fileUrl: z.string().url().optional().or(z.literal("")),
+  externalSources: z
+    .array(z.object({ source: z.string().min(1), link: z.string().url() }))
+    .optional(),
   published: z.boolean().default(false),
   featured: z.boolean().optional(),
 });

@@ -109,6 +109,27 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
                 </button>
               </form>
             </div>
+
+            {book.externalSources && book.externalSources.length > 0 && (
+              <div className="border-t border-linen-200 pt-6">
+                <p className="font-serif text-xs uppercase tracking-[0.2em] text-noir-muted">
+                  Also Available On
+                </p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  {book.externalSources.map((s) => (
+                    <a
+                      key={s.source}
+                      href={s.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full border border-linen-200 px-4 py-1.5 font-serif text-sm text-noir/80 transition-colors hover:border-accent hover:text-accent"
+                    >
+                      {s.source}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>

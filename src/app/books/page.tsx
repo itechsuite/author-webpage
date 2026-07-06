@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BookGrid from "@/components/BookGrid";
+import BookShowcaseSection from "@/components/BookShowcaseSection";
 import { listBooks } from "@/lib/models/Book";
 
 export const revalidate = 60;
@@ -18,7 +18,18 @@ export default async function BooksPage() {
             Ebooks and audiobooks, delivered straight to your inbox after purchase.
           </p>
         </div>
-        <BookGrid books={books} />
+
+        {books.length === 0 ? (
+          <div className="section text-center font-serif text-lg italic text-noir-muted">
+            No books published yet. Add some from the admin dashboard.
+          </div>
+        ) : (
+          <div className="mt-16">
+            {books.map((book, index) => (
+              <BookShowcaseSection key={book._id} book={book} index={index} />
+            ))}
+          </div>
+        )}
       </main>
       <Footer />
     </>
