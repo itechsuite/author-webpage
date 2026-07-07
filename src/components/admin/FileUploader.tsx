@@ -56,20 +56,20 @@ export default function FileUploader({ label, folder, accept, value, onUploaded 
 
   return (
     <div className="space-y-2">
-      <label className="text-sm text-cream-50/70">{label}</label>
+      <label className="text-sm text-white/60">{label}</label>
 
       {preview && (folder === "covers" || folder === "previews") && (
         <div className="mb-2">
           {folder === "covers" ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={preview} alt="preview" className="h-32 w-auto rounded border border-white/10" />
+            <img src={preview} alt="preview" className="h-32 w-auto rounded border border-adminBorder" />
           ) : (
-            <video src={preview} controls className="h-32 w-auto rounded border border-white/10" />
+            <video src={preview} controls className="h-32 w-auto rounded border border-adminBorder" />
           )}
         </div>
       )}
       {preview && (folder === "files" || folder === "secure") && (
-        <p className="mb-2 truncate text-xs text-cream-50/50">
+        <p className="mb-2 truncate text-xs text-white/40">
           {folder === "secure" ? `Stored (key hidden from public API): ${preview}` : preview}
         </p>
       )}
@@ -79,10 +79,10 @@ export default function FileUploader({ label, folder, accept, value, onUploaded 
         accept={accept}
         onChange={handleFileChange}
         disabled={uploading}
-        className="block w-full text-sm text-cream-50/70 file:mr-4 file:rounded-md file:border-0 file:bg-accent file:px-4 file:py-2 file:text-sm file:font-semibold file:text-ink-950 hover:file:bg-accent-hover"
+        className="block w-full text-sm text-white/60 file:mr-4 file:rounded-md file:border-0 file:bg-adminAccent file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-adminAccent-soft"
       />
 
-      {uploading && <p className="text-xs text-cream-50/50">Uploading...</p>}
+      {uploading && <p className="text-xs text-white/40">Uploading...</p>}
       {error && <p className="text-xs text-red-400">{error}</p>}
     </div>
   );

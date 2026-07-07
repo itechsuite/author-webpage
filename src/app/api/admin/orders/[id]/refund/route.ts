@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/rbac";
 import { getDb } from "@/lib/mongodb";
 import { stripe } from "@/lib/stripe";
 
@@ -11,7 +12,7 @@ import { stripe } from "@/lib/stripe";
  */
 export async function POST(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) {
+  if (!hasPermission(session?.role, "issueRefunds")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

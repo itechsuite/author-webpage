@@ -39,6 +39,19 @@ const config: Config = {
           50: "#f7f5f2",
           100: "#efece9",
         },
+        // Premium admin theme — deliberately its own visual world, separate
+        // from the public site's "Burnt Clay" brand palette above.
+        adminBg: "#0b0d14",
+        adminSurface: {
+          DEFAULT: "#12151f",
+          raised: "#161a26",
+        },
+        adminBorder: "rgba(255,255,255,0.08)",
+        adminAccent: {
+          DEFAULT: "#4c7dff",
+          soft: "#7c9cff",
+          violet: "#7c3aed",
+        },
       },
       fontFamily: {
         // Cormorant Garamond = display/headings/logo (≈ Adobe Caslon / Mrs Eaves),
@@ -46,6 +59,16 @@ const config: Config = {
         display: ["var(--font-display)", "Cormorant Garamond", "Georgia", "serif"],
         serif: ["var(--font-serif)", "EB Garamond", "Georgia", "serif"],
         sans: ["var(--font-serif)", "EB Garamond", "Georgia", "serif"],
+        // Clean system-ui sans used only inside /admin, distinct from the
+        // public site's serif pairing.
+        adminSans: [
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif",
+        ],
       },
       maxWidth: {
         content: "1200px",

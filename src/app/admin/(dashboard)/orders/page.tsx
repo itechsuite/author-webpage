@@ -1,24 +1,34 @@
 import Link from "next/link";
+import { getSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/rbac";
 import { listOrders } from "@/lib/models/Order";
 import { formatPrice } from "@/lib/format";
 import RefundButton from "@/components/admin/RefundButton";
+import AdminCard from "@/components/admin/AdminCard";
+import Badge from "@/components/admin/Badge";
 
-const STATUS_STYLES: Record<string, string> = {
-  paid: "bg-accent/20 text-accent",
-  failed: "bg-red-500/20 text-red-400",
-  refunded: "bg-white/10 text-cream-50/60",
+const STATUS_TONE: Record<string, "accent" | "danger" | "neutral"> = {
+  paid: "accent",
+  failed: "danger",
+  refunded: "neutral",
 };
 
 export default async function AdminOrdersPage() {
+  const session = await getSession();
+  if (!hasPermission(session?.role, "manageOrders")) {
+    return <p className="text-white/60">You're not authorized to view this page.</p>;
+  }
+
   const orders = await listOrders();
+  const canRefund = hasPermission(session?.role, "issueRefunds");
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Orders</h1>
+      <h1 className="text-2xl font-bold text-white">Orders</h1>
 
-      <div className="overflow-hidden rounded-lg border border-white/10">
+      <AdminCard className="!p-0 overflow-hidden">
         <table className="w-full text-left text-sm">
-          <thead className="bg-ink-900 text-cream-50/50">
+          <thead className="bg-white/5 text-white/50">
             <tr>
               <th className="p-4">Date</th>
               <th className="p-4">Book</th>
@@ -31,37 +41,33 @@ export default async function AdminOrdersPage() {
           <tbody>
             {orders.length === 0 && (
               <tr>
-                <td colSpan={6} className="p-6 text-center text-cream-50/50">
+                <td colSpan={6} className="p-6 text-center text-white/50">
                   No orders yet.
                 </td>
               </tr>
             )}
             {orders.map((order) => (
-              <tr key={order._id} className="border-t border-white/10 align-top">
-                <td className="p-4 text-cream-50/70">
+              <tr key={order._id} className="border-t border-adminBorder align-top">
+                <td className="p-4 text-white/70">
                   {new Date(order.createdAt).toLocaleDateString()}
                 </td>
                 <td className="p-4 font-medium">
-                  <Link href={`/admin/books/${order.bookId}`} className="hover:text-accent">
+                  <Link href={`/admin/books/${order.bookId}`} className="text-white hover:text-adminAccent-soft">
                     {order.bookTitle}
                   </Link>
                 </td>
-                <td className="p-4 text-cream-50/70">
+                <td className="p-4 text-white/70">
                   <p>{order.customerName || "—"}</p>
-                  <p className="text-cream-50/50">{order.customerEmail}</p>
+                  <p className="text-white/40">{order.customerEmail}</p>
                 </td>
-                <td className="p-4">
+                <td className="p-4 text-white/70">
                   {formatPrice(order.amountTotal / 100, order.currency)}
                 </td>
                 <td className="p-4">
-                  <span
-                    className={`rounded px-2 py-1 text-xs font-semibold capitalize ${STATUS_STYLES[order.status]}`}
-                  >
-                    {order.status}
-                  </span>
+                  <Badge tone={STATUS_TONE[order.status] || "neutral"}>{order.status}</Badge>
                 </td>
                 <td className="p-4">
-                  {order.status === "paid" && order.stripePaymentIntentId && (
+                  {canRefund && order.status === "paid" && order.stripePaymentIntentId && (
                     <RefundButton orderId={order._id!} />
                   )}
                 </td>
@@ -69,7 +75,7 @@ export default async function AdminOrdersPage() {
             ))}
           </tbody>
         </table>
-      </div>
+      </AdminCard>
     </div>
   );
 }

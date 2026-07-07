@@ -1,6 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { verifyAdminCredentials as verifyAdminCredentialsInDb } from "@/lib/models/Admin";
+import type { Role } from "@/types/admin";
 
 const COOKIE_NAME = "admin_session";
 const secret = new TextEncoder().encode(process.env.AUTH_SECRET || "dev-secret-change-me");
@@ -9,8 +10,8 @@ export async function verifyAdminCredentials(email: string, password: string) {
   return verifyAdminCredentialsInDb(email, password);
 }
 
-export async function createSessionToken(email: string) {
-  return new SignJWT({ email })
+export async function createSessionToken(email: string, role: Role) {
+  return new SignJWT({ email, role })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
@@ -39,7 +40,7 @@ export async function getSession() {
   if (!token) return null;
   try {
     const { payload } = await jwtVerify(token, secret);
-    return payload as { email: string };
+    return payload as { email: string; role: Role };
   } catch {
     return null;
   }

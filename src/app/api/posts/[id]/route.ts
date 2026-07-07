@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getPostById, updatePost, deletePost } from "@/lib/models/Post";
 import { getSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/rbac";
 
 const postUpdateSchema = z.object({
   title: z.string().min(1).optional(),
@@ -28,7 +29,7 @@ const postUpdateSchema = z.object({
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) {
+  if (!hasPermission(session?.role, "manageContent")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -42,7 +43,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) {
+  if (!hasPermission(session?.role, "manageContent")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -62,7 +63,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) {
+  if (!hasPermission(session?.role, "manageContent")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

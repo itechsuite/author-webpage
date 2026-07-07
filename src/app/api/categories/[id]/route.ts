@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { updateCategory, deleteCategory } from "@/lib/models/Category";
 import { getSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/rbac";
 
 const categoryUpdateSchema = z.object({
   name: z.string().min(1).optional(),
@@ -10,7 +11,7 @@ const categoryUpdateSchema = z.object({
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) {
+  if (!hasPermission(session?.role, "manageContent")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -30,7 +31,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) {
+  if (!hasPermission(session?.role, "manageContent")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

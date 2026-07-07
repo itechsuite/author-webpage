@@ -30,7 +30,10 @@ async function main() {
 
   await db.collection("admins").updateOne(
     { email: email.toLowerCase() },
-    { $set: { email: email.toLowerCase(), passwordHash, updatedAt: now }, $setOnInsert: { createdAt: now } },
+    {
+      $set: { email: email.toLowerCase(), passwordHash, updatedAt: now },
+      $setOnInsert: { createdAt: now, role: "super_admin", active: true },
+    },
     { upsert: true }
   );
 

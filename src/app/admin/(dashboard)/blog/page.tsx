@@ -1,14 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/rbac";
 import { listPosts } from "@/lib/models/Post";
 import { listCategories } from "@/lib/models/Category";
 import DeletePostButton from "@/components/admin/DeletePostButton";
 import BlogFilters from "@/components/admin/BlogFilters";
+import AdminCard from "@/components/admin/AdminCard";
+import Badge from "@/components/admin/Badge";
 
-const STATUS_STYLES: Record<string, string> = {
-  published: "bg-accent/20 text-accent",
-  scheduled: "bg-yellow-500/20 text-yellow-400",
-  draft: "bg-white/10 text-cream-50/60",
+const STATUS_TONE: Record<string, "accent" | "neutral"> = {
+  published: "accent",
+  scheduled: "neutral",
+  draft: "neutral",
 };
 
 export default async function AdminBlogPage({
@@ -16,6 +20,11 @@ export default async function AdminBlogPage({
 }: {
   searchParams: Promise<{ status?: string; category?: string }>;
 }) {
+  const session = await getSession();
+  if (!hasPermission(session?.role, "manageContent")) {
+    return <p className="text-white/60">You're not authorized to view this page.</p>;
+  }
+
   const { status, category } = await searchParams;
   const [{ posts }, categories] = await Promise.all([
     listPosts({
@@ -31,12 +40,18 @@ export default async function AdminBlogPage({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Blog</h1>
+        <h1 className="text-2xl font-bold text-white">Blog</h1>
         <div className="flex gap-3">
-          <Link href="/admin/blog/categories" className="btn-outline">
+          <Link
+            href="/admin/blog/categories"
+            className="rounded-lg border border-adminBorder px-5 py-2.5 text-sm font-semibold text-white/80 hover:border-adminAccent hover:text-adminAccent-soft"
+          >
             Manage Categories
           </Link>
-          <Link href="/admin/blog/new" className="btn-accent">
+          <Link
+            href="/admin/blog/new"
+            className="rounded-lg bg-gradient-to-r from-adminAccent to-adminAccent-violet px-5 py-2.5 text-sm font-semibold text-white"
+          >
             + New Post
           </Link>
         </div>
@@ -44,9 +59,9 @@ export default async function AdminBlogPage({
 
       <BlogFilters categories={categories} />
 
-      <div className="overflow-hidden rounded-lg border border-white/10">
+      <AdminCard className="!p-0 overflow-hidden">
         <table className="w-full text-left text-sm">
-          <thead className="bg-ink-900 text-cream-50/50">
+          <thead className="bg-white/5 text-white/50">
             <tr>
               <th className="p-4">Cover</th>
               <th className="p-4">Title</th>
@@ -58,9 +73,9 @@ export default async function AdminBlogPage({
           </thead>
           <tbody>
             {posts.map((post) => (
-              <tr key={post._id} className="border-t border-white/10">
+              <tr key={post._id} className="border-t border-adminBorder">
                 <td className="p-4">
-                  <div className="relative h-16 w-24 overflow-hidden rounded bg-ink-800">
+                  <div className="relative h-16 w-24 overflow-hidden rounded bg-white/5">
                     {post.coverImageUrl && (
                       <Image
                         src={post.coverImageUrl}
@@ -71,25 +86,21 @@ export default async function AdminBlogPage({
                     )}
                   </div>
                 </td>
-                <td className="p-4 font-medium">
+                <td className="p-4 font-medium text-white">
                   {post.title}
                   {post.featured && (
-                    <span className="ml-2 rounded bg-pink/20 px-2 py-0.5 text-xs font-semibold text-pink">
+                    <Badge tone="accent" className="ml-2">
                       Featured
-                    </span>
+                    </Badge>
                   )}
                 </td>
-                <td className="p-4 text-cream-50/70">
+                <td className="p-4 text-white/70">
                   {post.category ? categoryNameBySlug.get(post.category) || post.category : "—"}
                 </td>
                 <td className="p-4">
-                  <span
-                    className={`rounded px-2 py-1 text-xs font-semibold capitalize ${STATUS_STYLES[post.status]}`}
-                  >
-                    {post.status}
-                  </span>
+                  <Badge tone={STATUS_TONE[post.status] || "neutral"}>{post.status}</Badge>
                 </td>
-                <td className="p-4 text-cream-50/50">
+                <td className="p-4 text-white/50">
                   {post.status === "scheduled" && post.scheduledAt
                     ? `Scheduled ${new Date(post.scheduledAt).toLocaleDateString()}`
                     : post.publishedAt
@@ -98,7 +109,10 @@ export default async function AdminBlogPage({
                 </td>
                 <td className="p-4">
                   <div className="flex gap-3">
-                    <Link href={`/admin/blog/${post._id}`} className="text-accent hover:underline">
+                    <Link
+                      href={`/admin/blog/${post._id}`}
+                      className="text-adminAccent-soft hover:underline"
+                    >
                       Edit
                     </Link>
                     <DeletePostButton id={post._id!} />
@@ -108,14 +122,14 @@ export default async function AdminBlogPage({
             ))}
             {posts.length === 0 && (
               <tr>
-                <td colSpan={6} className="p-8 text-center text-cream-50/40">
+                <td colSpan={6} className="p-8 text-center text-white/40">
                   No posts yet.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-      </div>
+      </AdminCard>
     </div>
   );
 }

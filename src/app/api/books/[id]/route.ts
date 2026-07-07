@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBookById, updateBook, deleteBook } from "@/lib/models/Book";
 import { getSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/rbac";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
@@ -12,7 +13,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!hasPermission(session?.role, "manageBooks")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const { id } = await params;
   const body = await req.json();
@@ -23,7 +26,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!hasPermission(session?.role, "manageBooks")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const { id } = await params;
   const ok = await deleteBook(id);

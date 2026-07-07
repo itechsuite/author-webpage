@@ -33,7 +33,7 @@ function ToolbarButton({
       className={`rounded px-2 py-1 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
         active
           ? "bg-accent text-ink-950"
-          : "text-cream-50/70 hover:bg-ink-800 hover:text-cream-50"
+          : "text-white/60 hover:bg-white/5 hover:text-white"
       }`}
     >
       {label}
@@ -79,7 +79,7 @@ function Toolbar({ editor }: { editor: Editor }) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-1 border-b border-white/10 bg-ink-900 p-2">
+    <div className="flex flex-wrap items-center gap-1 border-b border-adminBorder bg-adminSurface p-2">
       <ToolbarButton
         title="Heading 1"
         label="H1"
@@ -230,7 +230,7 @@ export default function RichTextEditor({ value, onChange }: Props) {
     editorProps: {
       attributes: {
         class:
-          "prose-editor min-h-[320px] max-w-none px-4 py-3 text-cream-50 focus:outline-none",
+          "prose-editor min-h-[320px] max-w-none px-4 py-3 text-white focus:outline-none",
       },
     },
     onUpdate: ({ editor }) => onChange(editor.getJSON()),
@@ -254,10 +254,10 @@ export default function RichTextEditor({ value, onChange }: Props) {
   const characters = editor.storage.characterCount?.characters?.() ?? 0;
 
   return (
-    <div className="overflow-hidden rounded-md border border-white/10 bg-ink-950">
+    <div className="overflow-hidden rounded-md border border-adminBorder bg-adminBg">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
-      <div className="flex justify-end gap-4 border-t border-white/10 px-4 py-2 text-xs text-cream-50/40">
+      <div className="flex justify-end gap-4 border-t border-adminBorder px-4 py-2 text-xs text-white/30">
         <span>{words} words</span>
         <span>{characters} characters</span>
       </div>

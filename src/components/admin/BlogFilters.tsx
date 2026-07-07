@@ -16,7 +16,7 @@ export default function BlogFilters({ categories }: { categories: Category[] }) 
   }
 
   const selectClass =
-    "rounded-md border border-white/10 bg-ink-950 px-3 py-2 text-sm text-cream-50 focus:border-accent focus:outline-none";
+    "rounded-md border border-adminBorder bg-adminBg px-3 py-2 text-sm text-white focus:border-adminAccent focus:outline-none";
 
   return (
     <div className="flex gap-3">

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { listPosts, createPost } from "@/lib/models/Post";
 import { getSession } from "@/lib/auth";
+import { hasPermission } from "@/lib/rbac";
 
 const postSchema = z.object({
   title: z.string().min(1),
@@ -52,7 +53,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const session = await getSession();
-  if (!session) {
+  if (!hasPermission(session?.role, "manageContent")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -11,14 +11,14 @@ import type { Category } from "@/types/category";
 const RichTextEditor = dynamic(() => import("./RichTextEditor"), {
   ssr: false,
   loading: () => (
-    <div className="flex min-h-[320px] items-center justify-center rounded-md border border-white/10 bg-ink-950 text-sm text-cream-50/40">
+    <div className="flex min-h-[320px] items-center justify-center rounded-md border border-adminBorder bg-adminBg text-sm text-white/30">
       Loading editor…
     </div>
   ),
 });
 
 const inputClass =
-  "w-full rounded-md border border-white/10 bg-ink-950 px-4 py-2 text-cream-50 focus:border-accent focus:outline-none";
+  "w-full rounded-md border border-adminBorder bg-adminBg px-4 py-2 text-white focus:border-adminAccent focus:outline-none";
 
 interface Props {
   post?: Post;
@@ -122,7 +122,7 @@ export default function PostForm({ post, categories }: Props) {
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl space-y-6">
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Title</label>
+        <label className="text-sm text-white/60">Title</label>
         <input
           required
           value={form.title}
@@ -132,7 +132,7 @@ export default function PostForm({ post, categories }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Slug</label>
+        <label className="text-sm text-white/60">Slug</label>
         <input
           required
           value={form.slug}
@@ -145,7 +145,7 @@ export default function PostForm({ post, categories }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Excerpt</label>
+        <label className="text-sm text-white/60">Excerpt</label>
         <textarea
           required
           rows={3}
@@ -157,7 +157,7 @@ export default function PostForm({ post, categories }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Content</label>
+        <label className="text-sm text-white/60">Content</label>
         <RichTextEditor value={form.content} onChange={(json) => update("content", json)} />
       </div>
 
@@ -170,7 +170,7 @@ export default function PostForm({ post, categories }: Props) {
       />
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Cover Image Alt Text</label>
+        <label className="text-sm text-white/60">Cover Image Alt Text</label>
         <input
           value={form.coverImageAlt}
           onChange={(e) => update("coverImageAlt", e.target.value)}
@@ -180,7 +180,7 @@ export default function PostForm({ post, categories }: Props) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm text-cream-50/70">Category</label>
+          <label className="text-sm text-white/60">Category</label>
           <select
             value={form.category}
             onChange={(e) => update("category", e.target.value)}
@@ -196,7 +196,7 @@ export default function PostForm({ post, categories }: Props) {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm text-cream-50/70">Author Name</label>
+          <label className="text-sm text-white/60">Author Name</label>
           <input
             required
             value={form.authorName}
@@ -207,18 +207,18 @@ export default function PostForm({ post, categories }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Tags</label>
+        <label className="text-sm text-white/60">Tags</label>
         <div className="flex flex-wrap gap-2">
           {form.tags.map((tag) => (
             <span
               key={tag}
-              className="flex items-center gap-2 rounded-full bg-ink-800 px-3 py-1 text-xs text-cream-50/80"
+              className="flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/80"
             >
               {tag}
               <button
                 type="button"
                 onClick={() => removeTag(tag)}
-                className="text-cream-50/40 hover:text-cream-50"
+                className="text-white/30 hover:text-white"
               >
                 ×
               </button>
@@ -242,7 +242,7 @@ export default function PostForm({ post, categories }: Props) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm text-cream-50/70">Status</label>
+          <label className="text-sm text-white/60">Status</label>
           <select
             value={form.status}
             onChange={(e) => update("status", e.target.value as typeof form.status)}
@@ -256,7 +256,7 @@ export default function PostForm({ post, categories }: Props) {
 
         {form.status === "scheduled" && (
           <div className="space-y-2">
-            <label className="text-sm text-cream-50/70">Publish at</label>
+            <label className="text-sm text-white/60">Publish at</label>
             <input
               type="datetime-local"
               required
@@ -268,7 +268,7 @@ export default function PostForm({ post, categories }: Props) {
         )}
       </div>
 
-      <label className="flex items-center gap-2 text-sm text-cream-50/70">
+      <label className="flex items-center gap-2 text-sm text-white/60">
         <input
           type="checkbox"
           checked={form.featured}
@@ -277,19 +277,19 @@ export default function PostForm({ post, categories }: Props) {
         Featured
       </label>
 
-      <div className="rounded-md border border-white/10">
+      <div className="rounded-md border border-adminBorder">
         <button
           type="button"
           onClick={() => setSeoOpen((o) => !o)}
-          className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-cream-50/80"
+          className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-white/80"
         >
           SEO &amp; Social Sharing
-          <span className="text-cream-50/40">{seoOpen ? "−" : "+"}</span>
+          <span className="text-white/30">{seoOpen ? "−" : "+"}</span>
         </button>
         {seoOpen && (
-          <div className="space-y-4 border-t border-white/10 p-4">
+          <div className="space-y-4 border-t border-adminBorder p-4">
             <div className="space-y-2">
-              <label className="text-sm text-cream-50/70">Meta Title</label>
+              <label className="text-sm text-white/60">Meta Title</label>
               <input
                 value={form.seo.metaTitle}
                 onChange={(e) => updateSeo("metaTitle", e.target.value)}
@@ -298,7 +298,7 @@ export default function PostForm({ post, categories }: Props) {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm text-cream-50/70">Meta Description</label>
+              <label className="text-sm text-white/60">Meta Description</label>
               <textarea
                 rows={2}
                 value={form.seo.metaDescription}
@@ -320,7 +320,7 @@ export default function PostForm({ post, categories }: Props) {
 
       {error && <p className="text-sm text-red-400">{error}</p>}
 
-      <button type="submit" disabled={saving} className="btn-accent">
+      <button type="submit" disabled={saving} className="rounded-lg bg-gradient-to-r from-adminAccent to-adminAccent-violet px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50">
         {saving ? "Saving..." : post ? "Save Changes" : "Create Post"}
       </button>
     </form>

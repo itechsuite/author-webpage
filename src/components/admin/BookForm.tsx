@@ -95,32 +95,32 @@ export default function BookForm({ book }: Props) {
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Title</label>
+        <label className="text-sm text-white/60">Title</label>
         <input
           required
           value={form.title}
           onChange={(e) => update("title", e.target.value)}
-          className="w-full rounded-md border border-white/10 bg-ink-950 px-4 py-2 text-cream-50 focus:border-accent focus:outline-none"
+          className="w-full rounded-md border border-adminBorder bg-adminBg px-4 py-2 text-white focus:border-adminAccent focus:outline-none"
         />
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Subtitle</label>
+        <label className="text-sm text-white/60">Subtitle</label>
         <input
           value={form.subtitle}
           onChange={(e) => update("subtitle", e.target.value)}
-          className="w-full rounded-md border border-white/10 bg-ink-950 px-4 py-2 text-cream-50 focus:border-accent focus:outline-none"
+          className="w-full rounded-md border border-adminBorder bg-adminBg px-4 py-2 text-white focus:border-adminAccent focus:outline-none"
         />
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Description</label>
+        <label className="text-sm text-white/60">Description</label>
         <textarea
           required
           rows={5}
           value={form.description}
           onChange={(e) => update("description", e.target.value)}
-          className="w-full rounded-md border border-white/10 bg-ink-950 px-4 py-2 text-cream-50 focus:border-accent focus:outline-none"
+          className="w-full rounded-md border border-adminBorder bg-adminBg px-4 py-2 text-white focus:border-adminAccent focus:outline-none"
         />
       </div>
 
@@ -158,7 +158,7 @@ export default function BookForm({ book }: Props) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm text-cream-50/70">Price</label>
+          <label className="text-sm text-white/60">Price</label>
           <input
             required
             type="number"
@@ -166,26 +166,26 @@ export default function BookForm({ book }: Props) {
             min="0"
             value={form.price}
             onChange={(e) => update("price", parseFloat(e.target.value))}
-            className="w-full rounded-md border border-white/10 bg-ink-950 px-4 py-2 text-cream-50 focus:border-accent focus:outline-none"
+            className="w-full rounded-md border border-adminBorder bg-adminBg px-4 py-2 text-white focus:border-adminAccent focus:outline-none"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm text-cream-50/70">Currency</label>
+          <label className="text-sm text-white/60">Currency</label>
           <input
             value={form.currency}
             onChange={(e) => update("currency", e.target.value)}
-            className="w-full rounded-md border border-white/10 bg-ink-950 px-4 py-2 text-cream-50 focus:border-accent focus:outline-none"
+            className="w-full rounded-md border border-adminBorder bg-adminBg px-4 py-2 text-white focus:border-adminAccent focus:outline-none"
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm text-cream-50/70">Format</label>
+        <label className="text-sm text-white/60">Format</label>
         <select
           value={form.format}
           onChange={(e) => update("format", e.target.value as typeof form.format)}
-          className="w-full rounded-md border border-white/10 bg-ink-950 px-4 py-2 text-cream-50 focus:border-accent focus:outline-none"
+          className="w-full rounded-md border border-adminBorder bg-adminBg px-4 py-2 text-white focus:border-adminAccent focus:outline-none"
         >
           <option value="ebook">Ebook</option>
           <option value="audiobook">Audiobook</option>
@@ -194,7 +194,7 @@ export default function BookForm({ book }: Props) {
       </div>
 
       <div className="flex gap-6">
-        <label className="flex items-center gap-2 text-sm text-cream-50/70">
+        <label className="flex items-center gap-2 text-sm text-white/60">
           <input
             type="checkbox"
             checked={form.published}
@@ -202,7 +202,7 @@ export default function BookForm({ book }: Props) {
           />
           Published
         </label>
-        <label className="flex items-center gap-2 text-sm text-cream-50/70">
+        <label className="flex items-center gap-2 text-sm text-white/60">
           <input
             type="checkbox"
             checked={form.featured}
@@ -214,32 +214,32 @@ export default function BookForm({ book }: Props) {
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-sm text-cream-50/70">
+          <label className="text-sm text-white/60">
             External Sources (Amazon, Barnes &amp; Noble, etc.)
           </label>
           <button
             type="button"
             onClick={addSource}
-            className="rounded-md border border-white/10 px-3 py-1 text-xs uppercase tracking-wide text-cream-50/70 transition-colors hover:border-accent hover:text-accent"
+            className="rounded-md border border-adminBorder px-3 py-1 text-xs uppercase tracking-wide text-white/60 transition-colors hover:border-adminAccent hover:text-adminAccent-soft"
           >
             + Add Source
           </button>
         </div>
 
         {form.externalSources.length === 0 && (
-          <p className="text-xs italic text-cream-50/40">No external sources added yet.</p>
+          <p className="text-xs italic text-white/30">No external sources added yet.</p>
         )}
 
         <div className="space-y-3">
           {form.externalSources.map((s, i) => (
-            <div key={i} className="flex items-start gap-2 rounded-md border border-white/10 p-3">
+            <div key={i} className="flex items-start gap-2 rounded-md border border-adminBorder p-3">
               <div className="grid flex-1 grid-cols-1 gap-2 sm:grid-cols-2">
                 <input
                   required
                   placeholder="Source name (e.g. Amazon)"
                   value={s.source}
                   onChange={(e) => updateSource(i, "source", e.target.value)}
-                  className="w-full rounded-md border border-white/10 bg-ink-950 px-3 py-2 text-sm text-cream-50 focus:border-accent focus:outline-none"
+                  className="w-full rounded-md border border-adminBorder bg-adminBg px-3 py-2 text-sm text-white focus:border-adminAccent focus:outline-none"
                 />
                 <input
                   required
@@ -247,7 +247,7 @@ export default function BookForm({ book }: Props) {
                   placeholder="https://..."
                   value={s.link}
                   onChange={(e) => updateSource(i, "link", e.target.value)}
-                  className="w-full rounded-md border border-white/10 bg-ink-950 px-3 py-2 text-sm text-cream-50 focus:border-accent focus:outline-none"
+                  className="w-full rounded-md border border-adminBorder bg-adminBg px-3 py-2 text-sm text-white focus:border-adminAccent focus:outline-none"
                 />
               </div>
 
@@ -257,7 +257,7 @@ export default function BookForm({ book }: Props) {
                   onClick={() => moveSource(i, -1)}
                   disabled={i === 0}
                   aria-label="Move up"
-                  className="rounded border border-white/10 px-2 py-1 text-xs text-cream-50/70 transition-colors hover:border-accent hover:text-accent disabled:opacity-30"
+                  className="rounded border border-adminBorder px-2 py-1 text-xs text-white/60 transition-colors hover:border-adminAccent hover:text-adminAccent-soft disabled:opacity-30"
                 >
                   ↑
                 </button>
@@ -266,7 +266,7 @@ export default function BookForm({ book }: Props) {
                   onClick={() => moveSource(i, 1)}
                   disabled={i === form.externalSources.length - 1}
                   aria-label="Move down"
-                  className="rounded border border-white/10 px-2 py-1 text-xs text-cream-50/70 transition-colors hover:border-accent hover:text-accent disabled:opacity-30"
+                  className="rounded border border-adminBorder px-2 py-1 text-xs text-white/60 transition-colors hover:border-adminAccent hover:text-adminAccent-soft disabled:opacity-30"
                 >
                   ↓
                 </button>
@@ -274,7 +274,7 @@ export default function BookForm({ book }: Props) {
                   type="button"
                   onClick={() => removeSource(i)}
                   aria-label="Remove source"
-                  className="rounded border border-white/10 px-2 py-1 text-xs text-red-400/80 transition-colors hover:border-red-400 hover:text-red-400"
+                  className="rounded border border-adminBorder px-2 py-1 text-xs text-red-400/80 transition-colors hover:border-red-400 hover:text-red-400"
                 >
                   ✕
                 </button>
@@ -286,7 +286,7 @@ export default function BookForm({ book }: Props) {
 
       {error && <p className="text-sm text-red-400">{error}</p>}
 
-      <button type="submit" disabled={saving} className="btn-accent">
+      <button type="submit" disabled={saving} className="rounded-lg bg-gradient-to-r from-adminAccent to-adminAccent-violet px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50">
         {saving ? "Saving..." : book ? "Save Changes" : "Create Book"}
       </button>
     </form>
