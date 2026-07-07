@@ -32,7 +32,7 @@ export default function NewsletterSignup() {
           variants={item}
           className="mx-auto mt-6 max-w-xl font-serif text-xl italic leading-relaxed text-noir-muted"
         >
-          Enter your email below to sign up for my free &quot;You Can&quot;
+          Enter your email below to sign up for my free 
           Newsletter. It is just a two-minute inspirational note that will
           impact your life.
         </motion.p>

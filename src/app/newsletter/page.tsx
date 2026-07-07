@@ -29,7 +29,7 @@ export default function NewsletterPage() {
       <main>
         <PageHeading
           title="Newsletter"
-          intro="The &quot;You Can&quot; Newsletter — a quiet, inspirational note, once in a while."
+          intro=" Newsletter — a quiet, inspirational note, once in a while."
         />
 
         <section className="section grid grid-cols-1 gap-16 !pt-16 md:grid-cols-2">
@@ -53,10 +53,10 @@ export default function NewsletterPage() {
           {/* Signup card */}
           <div className="flex flex-col justify-center bg-linen-50 p-10 md:p-14">
             <h2 className="text-4xl uppercase tracking-[0.12em] text-noir">
-              &quot;You Can&quot; Newsletter
+              Newsletter
             </h2>
             <p className="mt-4 font-serif text-lg italic leading-relaxed text-noir-muted">
-              Enter your email below to sign up for my free &quot;You Can&quot;
+              Enter your email below to sign up for my free
               Newsletter. It is just a two-minute inspirational note that
               will impact your life.
             </p>
