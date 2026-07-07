@@ -2,16 +2,47 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getBookBySlug } from "@/lib/models/Book";
+import { getBookBySlug, getBookFileKey } from "@/lib/models/Book";
 import { formatPrice } from "@/lib/format";
+import { stripe } from "@/lib/stripe";
+import { getPresignedDownloadUrl } from "@/lib/r2";
 
-export const revalidate = 60;
+const DOWNLOAD_LINK_EXPIRY_SECONDS = 60 * 60 * 2; // 2 hours
 
-export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export const revalidate = 0;
+
+async function getDownloadUrl(book: Awaited<ReturnType<typeof getBookBySlug>>, sessionId?: string) {
+  if (!book || !sessionId) return null;
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const paidForThisBook =
+      session.payment_status === "paid" && session.metadata?.bookId === book._id;
+    if (!paidForThisBook) return null;
+
+    const fileKey = await getBookFileKey(book._id!);
+    if (!fileKey) return "pending"; // paid, but no file uploaded yet
+
+    return getPresignedDownloadUrl(fileKey, DOWNLOAD_LINK_EXPIRY_SECONDS);
+  } catch {
+    return null;
+  }
+}
+
+export default async function BookDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ checkout?: string; session_id?: string }>;
+}) {
   const { slug } = await params;
+  const { checkout, session_id: sessionId } = await searchParams;
   const book = await getBookBySlug(slug);
 
   if (!book || !book.published) notFound();
+
+  const downloadUrl = checkout === "success" ? await getDownloadUrl(book, sessionId) : null;
 
   return (
     <>
@@ -95,13 +126,44 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
               </div>
             )}
 
+            {checkout === "success" && (
+              <div className="border-l-2 border-accent bg-linen-50 p-6">
+                {downloadUrl === "pending" ? (
+                  <>
+                    <p className="font-display text-xl text-accent">Payment received.</p>
+                    <p className="mt-2 font-serif text-sm text-noir-muted">
+                      Your download will be available shortly — we'll be in touch.
+                    </p>
+                  </>
+                ) : downloadUrl ? (
+                  <>
+                    <p className="font-display text-xl text-accent">Thank you for your purchase!</p>
+                    <a href={downloadUrl} className="btn-accent mt-4 inline-block">
+                      Download {book.title}
+                    </a>
+                    <p className="mt-2 font-serif text-xs italic text-noir-muted">
+                      This link expires in 2 hours — we've also emailed you a copy.
+                    </p>
+                  </>
+                ) : (
+                  <p className="font-serif text-sm text-noir-muted">
+                    We couldn't verify that payment yet. If you were just charged, please refresh
+                    this page in a moment.
+                  </p>
+                )}
+              </div>
+            )}
+
+            {checkout === "cancelled" && (
+              <p className="font-serif text-sm italic text-noir-muted">
+                Checkout was cancelled — no charge was made.
+              </p>
+            )}
+
             <div className="mt-4 flex items-center gap-8">
               <span className="font-display text-4xl text-accent">
                 {formatPrice(book.price, book.currency)}
               </span>
-              {/* Wire this button up to your payment processor of choice
-                  (Stripe Checkout, Lemon Squeezy, Paddle, etc). This form
-                  posts to a placeholder route you can replace. */}
               <form action="/api/checkout" method="POST">
                 <input type="hidden" name="bookId" value={book._id} />
                 <button type="submit" className="btn-accent">

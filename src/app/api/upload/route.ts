@@ -7,7 +7,9 @@ import { getSession } from "@/lib/auth";
  * to R2 from the browser with a PUT request. Nothing passes through our
  * server, so this scales fine for large cover images and preview videos.
  *
- * Body: { filename: string, contentType: string, folder: "covers" | "previews" | "files" | "blog" }
+ * Body: { filename: string, contentType: string, folder: "covers" | "previews" | "files" | "blog" | "secure" }
+ * "secure" is for deliverable book files — this route is already admin-gated
+ * above, and callers must store the returned `key`, not `publicUrl`, for it.
  */
 export async function POST(req: NextRequest) {
   const session = await getSession();

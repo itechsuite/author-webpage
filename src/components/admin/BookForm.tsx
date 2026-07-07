@@ -18,7 +18,7 @@ export default function BookForm({ book }: Props) {
     coverImageUrl: book?.coverImageUrl || "",
     fullBookCoverUrl: book?.fullBookCoverUrl || "",
     previewVideoUrl: book?.previewVideoUrl || "",
-    fileUrl: book?.fileUrl || "",
+    bookFileKey: book?.bookFileKey || "",
     price: book?.price ?? 5000,
     currency: book?.currency || "NGN",
     format: book?.format || "ebook",
@@ -149,11 +149,11 @@ export default function BookForm({ book }: Props) {
       />
 
       <FileUploader
-        label="Deliverable File (ebook/audiobook, delivered after purchase)"
-        folder="files"
+        label="Deliverable File (ebook/audiobook — stored securely, never public)"
+        folder="secure"
         accept=".pdf,.epub,.mp3,.zip"
-        value={form.fileUrl}
-        onUploaded={(url) => update("fileUrl", url)}
+        value={form.bookFileKey}
+        onUploaded={(key) => update("bookFileKey", key)}
       />
 
       <div className="grid grid-cols-2 gap-4">

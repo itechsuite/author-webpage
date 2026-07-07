@@ -17,7 +17,7 @@ export interface Book {
   price: number; // in smallest currency unit-agnostic decimal, e.g. 14.99
   currency: string; // "USD"
   format: "ebook" | "audiobook" | "bundle";
-  fileUrl?: string; // protected download asset in R2 (delivered after purchase)
+  bookFileKey?: string; // raw R2 object key for the deliverable file — admin-only, never returned to public API/pages
   genre?: string;
   tags?: string[];
   language?: string;

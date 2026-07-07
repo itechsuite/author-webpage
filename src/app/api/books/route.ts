@@ -14,7 +14,7 @@ const bookSchema = z.object({
   price: z.number().nonnegative(),
   currency: z.string().default("NGN"),
   format: z.enum(["ebook", "audiobook", "bundle"]),
-  fileUrl: z.string().url().optional().or(z.literal("")),
+  bookFileKey: z.string().optional(),
   externalSources: z
     .array(z.object({ source: z.string().min(1), link: z.string().url() }))
     .optional(),

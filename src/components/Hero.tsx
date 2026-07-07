@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import AuthorPortrait from "./AuthorPortrait";
 
 const bioHighlight =
   "Telling stories is the oldest art form in human history, and to date, it has not lost its ability to entertain, inspire, and expand our imagination.";
@@ -25,21 +25,12 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative order-1 mx-auto w-full max-w-sm md:order-2 md:mx-0 md:max-w-none">
-        <div
-          aria-hidden
-          className="absolute -right-4 -top-4 h-full w-full rounded-t-full bg-accent/15 md:-right-6 md:-top-6"
-        />
-        <div className="group relative aspect-[3/4] w-full overflow-hidden rounded-t-full bg-linen-100 ring-1 ring-linen-200">
-          <Image
-            src="https://pub-2f8f7122da514161b38cdfcd7fecfb26.r2.dev/covers/1783127504737-main-author.jpeg"
-            alt={`Portrait of ${name}`}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            priority
-          />
-        </div>
-      </div>
+      <AuthorPortrait
+        src="https://pub-2f8f7122da514161b38cdfcd7fecfb26.r2.dev/covers/1783127504737-main-author.jpeg"
+        alt={`Portrait of ${name}`}
+        priority
+        className="order-1 mx-auto w-full max-w-sm md:order-2 md:mx-0 md:max-w-none"
+      />
     </section>
   );
 }

@@ -4,10 +4,10 @@ import { useState } from "react";
 
 interface Props {
   label: string;
-  folder: "covers" | "previews" | "files";
+  folder: "covers" | "previews" | "files" | "secure";
   accept?: string;
   value?: string;
-  onUploaded: (publicUrl: string) => void;
+  onUploaded: (value: string) => void;
 }
 
 export default function FileUploader({ label, folder, accept, value, onUploaded }: Props) {
@@ -31,7 +31,7 @@ export default function FileUploader({ label, folder, accept, value, onUploaded 
       });
 
       if (!presignRes.ok) throw new Error("Could not get upload URL");
-      const { uploadUrl, publicUrl } = await presignRes.json();
+      const { uploadUrl, publicUrl, key } = await presignRes.json();
 
       // 2. Upload the file directly to R2 — it never touches our server.
       const uploadRes = await fetch(uploadUrl, {
@@ -42,8 +42,11 @@ export default function FileUploader({ label, folder, accept, value, onUploaded 
 
       if (!uploadRes.ok) throw new Error("Upload to storage failed");
 
-      setPreview(publicUrl);
-      onUploaded(publicUrl);
+      // "secure" files are deliverable assets — only the raw key is ever
+      // stored/returned, never the public URL, so it can't leak anywhere.
+      const value = folder === "secure" ? key : publicUrl;
+      setPreview(value);
+      onUploaded(value);
     } catch (err: any) {
       setError(err.message || "Upload failed");
     } finally {
@@ -55,7 +58,7 @@ export default function FileUploader({ label, folder, accept, value, onUploaded 
     <div className="space-y-2">
       <label className="text-sm text-cream-50/70">{label}</label>
 
-      {preview && folder !== "files" && (
+      {preview && (folder === "covers" || folder === "previews") && (
         <div className="mb-2">
           {folder === "covers" ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -65,8 +68,10 @@ export default function FileUploader({ label, folder, accept, value, onUploaded 
           )}
         </div>
       )}
-      {preview && folder === "files" && (
-        <p className="mb-2 truncate text-xs text-cream-50/50">{preview}</p>
+      {preview && (folder === "files" || folder === "secure") && (
+        <p className="mb-2 truncate text-xs text-cream-50/50">
+          {folder === "secure" ? `Stored (key hidden from public API): ${preview}` : preview}
+        </p>
       )}
 
       <input

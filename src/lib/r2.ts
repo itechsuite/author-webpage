@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 // Cloudflare R2 speaks the S3 API, so the AWS SDK works against it directly
@@ -34,8 +34,25 @@ export async function deleteObject(key: string) {
   await r2.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: key }));
 }
 
+/**
+ * Generates a short-lived signed URL to read a private/deliverable asset,
+ * e.g. a purchased ebook file, without exposing the permanent public URL.
+ */
+export async function getPresignedDownloadUrl(key: string, expiresIn = 3600) {
+  const command = new GetObjectCommand({ Bucket: BUCKET, Key: key });
+  return getSignedUrl(r2, command, { expiresIn });
+}
+
+/** Recovers the R2 object key from a full public URL produced by getPresignedUploadUrl. */
+export function keyFromPublicUrl(publicUrl: string): string {
+  return publicUrl.replace(`${PUBLIC_BASE_URL}/`, "");
+}
+
 /** Builds a namespaced object key, e.g. covers/1699999-my-book.jpg */
-export function buildObjectKey(folder: "covers" | "previews" | "files" | "blog", filename: string) {
+export function buildObjectKey(
+  folder: "covers" | "previews" | "files" | "blog" | "secure",
+  filename: string
+) {
   const safeName = filename.replace(/[^a-zA-Z0-9.\-_]/g, "-").toLowerCase();
   return `${folder}/${Date.now()}-${safeName}`;
 }

@@ -3,8 +3,9 @@ import { getBookById, updateBook, deleteBook } from "@/lib/models/Book";
 import { getSession } from "@/lib/auth";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await getSession();
   const { id } = await params;
-  const book = await getBookById(id);
+  const book = await getBookById(id, { includeSecure: !!session });
   if (!book) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ book });
 }

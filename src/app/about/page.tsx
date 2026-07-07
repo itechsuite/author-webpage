@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeading from "@/components/PageHeading";
+import AuthorPortrait from "@/components/AuthorPortrait";
 
 export const metadata: Metadata = {
   title: `About — ${process.env.NEXT_PUBLIC_SITE_NAME || "Author"}`,
@@ -45,24 +45,13 @@ export default function AboutPage() {
             <p className="mt-14 font-display text-3xl italic text-accent">— {name}</p>
           </div>
 
-          {/* Arched portrait with an offset purple panel behind it */}
-          <div className="order-1 md:order-2">
-            <div className="relative mx-auto w-full max-w-sm md:max-w-none">
-              <div
-                aria-hidden
-                className="absolute -right-4 -top-4 h-full w-full rounded-t-full bg-accent/15 md:-right-6 md:-top-6"
-              />
-              <div className="group relative aspect-[3/4] w-full overflow-hidden rounded-t-full bg-linen-100 ring-1 ring-linen-200">
-                <Image
-                  src="https://pub-2f8f7122da514161b38cdfcd7fecfb26.r2.dev/covers/1783127504737-main-author.jpeg"
-                  alt={`Portrait of ${name}`}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
+          {/* Arched, "alive" portrait with an offset accent panel behind it */}
+          <AuthorPortrait
+            src="https://pub-2f8f7122da514161b38cdfcd7fecfb26.r2.dev/covers/1783127504737-main-author.jpeg"
+            alt={`Portrait of ${name}`}
+            priority
+            className="order-1 mx-auto w-full max-w-sm md:order-2 md:max-w-none"
+          />
         </section>
       </main>
       <Footer />
