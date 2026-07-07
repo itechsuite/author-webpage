@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getBookBySlug, getBookFileKey } from "@/lib/models/Book";
 import { formatPrice } from "@/lib/format";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { getPresignedDownloadUrl } from "@/lib/r2";
 
 const DOWNLOAD_LINK_EXPIRY_SECONDS = 60 * 60 * 2; // 2 hours
@@ -15,7 +15,7 @@ async function getDownloadUrl(book: Awaited<ReturnType<typeof getBookBySlug>>, s
   if (!book || !sessionId) return null;
 
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
     const paidForThisBook =
       session.payment_status === "paid" && session.metadata?.bookId === book._id;
     if (!paidForThisBook) return null;

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBookById } from "@/lib/models/Book";
-import { stripe, toStripeAmount } from "@/lib/stripe";
+import { getStripe, toStripeAmount } from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     mode: "payment",
     line_items: [
       {

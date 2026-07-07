@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { getSession } from "@/lib/auth";
 import { hasPermission } from "@/lib/rbac";
 import { getDb } from "@/lib/mongodb";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 
 /**
  * Triggers a Stripe refund for an order. Doesn't flip the order's own status
@@ -31,7 +31,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   }
 
   try {
-    const refund = await stripe.refunds.create({
+    const refund = await getStripe().refunds.create({
       payment_intent: order.stripePaymentIntentId,
     });
     return NextResponse.json({ refund });
