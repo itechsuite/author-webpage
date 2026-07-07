@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import BookGrid from "@/components/BookGrid";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import AnimatedDivider from "@/components/AnimatedDivider";
 import { listBooks } from "@/lib/models/Book";
 
 export const revalidate = 60;
@@ -15,9 +16,9 @@ export default async function HomePage() {
       <Navbar />
       <main>
         <Hero />
-        <hr className="divider-thin" />
+        <AnimatedDivider />
         <BookGrid books={books} title="Books" />
-        <hr className="divider-thin" />
+        <AnimatedDivider />
 
         <NewsletterSignup />
       </main>
