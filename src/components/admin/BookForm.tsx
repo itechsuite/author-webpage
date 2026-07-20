@@ -24,6 +24,7 @@ export default function BookForm({ book }: Props) {
     format: book?.format || "ebook",
     published: book?.published ?? false,
     featured: book?.featured ?? false,
+    comingSoon: book?.comingSoon ?? false,
     externalSources: book?.externalSources ?? [],
   });
   const [saving, setSaving] = useState(false);
@@ -209,6 +210,14 @@ export default function BookForm({ book }: Props) {
             onChange={(e) => update("featured", e.target.checked)}
           />
           Featured on homepage
+        </label>
+        <label className="flex items-center gap-2 text-sm text-white/60">
+          <input
+            type="checkbox"
+            checked={form.comingSoon}
+            onChange={(e) => update("comingSoon", e.target.checked)}
+          />
+          Coming Soon (visible, but not purchasable yet)
         </label>
       </div>
 

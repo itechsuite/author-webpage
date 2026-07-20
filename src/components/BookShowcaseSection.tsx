@@ -110,9 +110,15 @@ export default function BookShowcaseSection({ book, index }: { book: Book; index
             <Link href={`/books/${book.slug}`} className="btn-accent">
               Book Page
             </Link>
-            <span className="font-serif text-base text-cream-50/70 sm:text-lg">
-              {formatPrice(book.price, book.currency)}
-            </span>
+            {book.comingSoon ? (
+              <span className="font-display text-sm uppercase tracking-[0.2em] text-accent">
+                Coming Soon
+              </span>
+            ) : (
+              <span className="font-serif text-base text-cream-50/70 sm:text-lg">
+                {formatPrice(book.price, book.currency)}
+              </span>
+            )}
           </motion.div>
 
           {book.externalSources && book.externalSources.length > 0 && (

@@ -161,15 +161,28 @@ export default async function BookDetailPage({
             )}
 
             <div className="mt-4 flex items-center gap-8">
-              <span className="font-display text-4xl text-accent">
-                {formatPrice(book.price, book.currency)}
-              </span>
-              <form action="/api/checkout" method="POST">
-                <input type="hidden" name="bookId" value={book._id} />
-                <button type="submit" className="btn-accent">
-                  Buy Now
-                </button>
-              </form>
+              {book.comingSoon ? (
+                <div>
+                  <span className="font-display text-2xl uppercase tracking-[0.15em] text-accent">
+                    Coming Soon
+                  </span>
+                  <p className="mt-2 font-serif text-sm italic text-noir-muted">
+                    This title isn&apos;t available for purchase just yet — check back soon.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <span className="font-display text-4xl text-accent">
+                    {formatPrice(book.price, book.currency)}
+                  </span>
+                  <form action="/api/checkout" method="POST">
+                    <input type="hidden" name="bookId" value={book._id} />
+                    <button type="submit" className="btn-accent">
+                      Buy Now
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
 
             {book.externalSources && book.externalSources.length > 0 && (

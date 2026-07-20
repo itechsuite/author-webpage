@@ -21,6 +21,7 @@ const bookSchema = z.object({
     .optional(),
   published: z.boolean().default(false),
   featured: z.boolean().optional(),
+  comingSoon: z.boolean().optional(),
 });
 
 export async function GET(req: NextRequest) {

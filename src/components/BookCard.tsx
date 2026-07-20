@@ -30,8 +30,15 @@ export default function BookCard({ book }: { book: Book }) {
             src={book.coverImageUrl}
             alt={book.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+            className={`object-cover transition-transform duration-500 group-hover:scale-[1.05] ${
+              book.comingSoon ? "opacity-70 grayscale-[0.3]" : ""
+            }`}
           />
+          {book.comingSoon && (
+            <span className="absolute right-3 top-3 rounded-full bg-noir/90 px-3 py-1 font-display text-xs uppercase tracking-[0.15em] text-white">
+              Coming Soon
+            </span>
+          )}
         </motion.div>
 
         <div className="flex flex-1 flex-col items-center gap-1 pt-5">
@@ -41,9 +48,13 @@ export default function BookCard({ book }: { book: Book }) {
           {book.subtitle && (
             <p className="font-serif text-sm italic text-noir-muted">{book.subtitle}</p>
           )}
-          <span className="mt-2 font-serif text-base text-accent">
-            {formatPrice(book.price, book.currency)}
-          </span>
+          {book.comingSoon ? (
+            <span className="mt-2 font-serif text-base italic text-noir-muted">Coming Soon</span>
+          ) : (
+            <span className="mt-2 font-serif text-base text-accent">
+              {formatPrice(book.price, book.currency)}
+            </span>
+          )}
         </div>
       </Link>
     </motion.div>

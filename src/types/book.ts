@@ -26,6 +26,7 @@ export interface Book {
   publishedDate?: string; // original publication date, distinct from createdAt
   published: boolean;
   featured?: boolean;
+  comingSoon?: boolean; // still shown on the site, but purchase is disabled with a "Coming Soon" label
   createdAt: string;
   updatedAt: string;
 }
