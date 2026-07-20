@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Book } from "@/types/book";
-import { formatPrice } from "@/lib/format";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 60, rotateX: -35, scale: 0.92 },
@@ -48,12 +47,8 @@ export default function BookCard({ book }: { book: Book }) {
           {book.subtitle && (
             <p className="font-serif text-sm italic text-noir-muted">{book.subtitle}</p>
           )}
-          {book.comingSoon ? (
+          {book.comingSoon && (
             <span className="mt-2 font-serif text-base italic text-noir-muted">Coming Soon</span>
-          ) : (
-            <span className="mt-2 font-serif text-base text-accent">
-              {formatPrice(book.price, book.currency)}
-            </span>
           )}
         </div>
       </Link>
