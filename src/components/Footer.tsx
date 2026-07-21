@@ -35,23 +35,6 @@ export default function Footer() {
           ))}
         </nav>
 
-        <div>
-          <p className="font-serif text-xs uppercase tracking-[0.2em] text-cream-50/40">
-            Find My Books On
-          </p>
-          <nav className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-2">
-            {retailers.map((r) => (
-              <a
-                key={r.label}
-                href={r.href}
-                className="font-serif text-sm text-cream-50/70 transition-colors hover:text-accent"
-              >
-                {r.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-
         <p className="font-serif text-xs italic text-cream-50/40">
           © {new Date().getFullYear()} {name}. All rights reserved.
         </p>

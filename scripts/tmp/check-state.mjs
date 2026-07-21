@@ -1,0 +1,10 @@
+import "dotenv/config";
+import { MongoClient } from "mongodb";
+const client = new MongoClient(process.env.MONGODB_URI);
+await client.connect();
+const db = client.db(process.env.MONGODB_DB || "author_platform");
+const books = await db.collection("books").find({}, { projection: { title: 1, price: 1, currency: 1 } }).toArray();
+console.log("BOOKS:", JSON.stringify(books, null, 2));
+const links = await db.collection("social_links").find({}).toArray();
+console.log("SOCIAL LINKS COUNT:", links.length);
+await client.close();

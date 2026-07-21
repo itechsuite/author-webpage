@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { listSocialLinks } from "@/lib/models/SocialLink";
+import { getSiteSettings } from "@/lib/models/SiteSettings";
 import type { SocialPlatform } from "@/types/socialLink";
 
 const links = [
@@ -38,7 +39,8 @@ const ICON_PATHS: Record<SocialPlatform, string> = {
 };
 
 export default async function Navbar() {
-  const socials = await listSocialLinks();
+  const [socials, settings] = await Promise.all([listSocialLinks(), getSiteSettings()]);
+  const showSocials = settings.socialLinksVisible && socials.length > 0;
 
   return (
     <header className="sticky top-0 z-50 border-b border-linen-200 bg-white/70 backdrop-blur">
@@ -63,7 +65,7 @@ export default async function Navbar() {
             ))}
           </nav>
 
-          {socials.length > 0 && (
+          {showSocials && (
             <div className="flex items-center gap-4 text-noir/70">
               {socials.map((s) => (
                 <a
