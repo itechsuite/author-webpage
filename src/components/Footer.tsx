@@ -40,5 +40,6 @@ export default function Footer() {
         </p>
       </div>
     </footer>
+  
   );
 }
