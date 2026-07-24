@@ -48,3 +48,47 @@ export async function sendPurchaseEmail({
 
   return result;
 }
+
+export async function sendContactReplyEmail({
+  to,
+  customerName,
+  subject,
+  replyBody,
+}: {
+  to: string;
+  customerName?: string;
+  subject?: string;
+  replyBody: string;
+}) {
+  const greeting = customerName ? `Hi ${customerName},` : "Hi,";
+  // Preserve the sender's line breaks without letting raw HTML through.
+  const escapedBody = replyBody
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br />");
+
+  const result = await resend.emails.send({
+    from: FROM,
+    to,
+    subject: subject ? `Re: ${subject}` : `A reply from ${SITE_NAME}`,
+    html: `
+      <div style="font-family: Georgia, serif; max-width: 480px; margin: 0 auto; padding: 32px 24px; color: #241e1a;">
+        <p style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7d70; margin: 0 0 24px;">${SITE_NAME}</p>
+        <p style="font-size: 16px; line-height: 1.6;">${greeting}</p>
+        <p style="font-size: 16px; line-height: 1.7;">${escapedBody}</p>
+        <p style="margin-top: 32px; font-size: 13px; color: #8a7d70; line-height: 1.6;">
+          You're receiving this because you reached out through the contact form on
+          our website. Reply directly to this email to continue the conversation.
+        </p>
+      </div>
+    `,
+  });
+
+  if (result.error) {
+    console.error("[sendContactReplyEmail] Resend rejected the send:", result.error);
+    throw new Error(`Resend error: ${result.error.message || JSON.stringify(result.error)}`);
+  }
+
+  return result;
+}

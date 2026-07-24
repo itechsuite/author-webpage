@@ -11,6 +11,7 @@ const links: { href: string; label: string; permission?: Permission }[] = [
   { href: "/admin/books", label: "Books", permission: "manageBooks" },
   { href: "/admin/orders", label: "Orders", permission: "manageOrders" },
   { href: "/admin/customers", label: "Customers", permission: "manageCustomers" },
+  { href: "/admin/contact", label: "Contact", permission: "manageContact" },
   { href: "/admin/blog", label: "Blog", permission: "manageContent" },
   { href: "/admin/social-links", label: "Social Links", permission: "manageSocialLinks" },
   { href: "/admin/team", label: "Team", permission: "manageAdmins" },

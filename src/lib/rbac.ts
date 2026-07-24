@@ -6,6 +6,7 @@ export const PERMISSIONS = {
   manageOrders: ["super_admin", "support"],
   issueRefunds: ["super_admin", "support"],
   manageCustomers: ["super_admin", "support"],
+  manageContact: ["super_admin", "support"],
   manageContent: ["super_admin", "content_editor"], // blog + categories
   manageSocialLinks: ["super_admin", "content_editor"],
 } as const satisfies Record<string, readonly Role[]>;
