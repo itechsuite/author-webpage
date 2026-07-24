@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookShowcaseSection from "@/components/BookShowcaseSection";
 import { listBooks } from "@/lib/models/Book";
 
 export const revalidate = 60;
+
+const title = "Shop — Ebooks & Audiobooks";
+const description =
+  "Browse the full collection of ebooks and audiobooks, delivered straight to your inbox after purchase.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: "/books" },
+  openGraph: { title, description, url: "/books", type: "website" },
+  twitter: { card: "summary_large_image", title, description },
+};
 
 export default async function BooksPage() {
   const books = await listBooks({ publishedOnly: true });

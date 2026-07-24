@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getBookBySlug, getBookFileKey } from "@/lib/models/Book";
@@ -8,8 +9,46 @@ import { getStripe } from "@/lib/stripe";
 import { getPresignedDownloadUrl } from "@/lib/r2";
 
 const DOWNLOAD_LINK_EXPIRY_SECONDS = 60 * 60 * 2; // 2 hours
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "Your Name";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const revalidate = 0;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const book = await getBookBySlug(slug);
+  if (!book || !book.published) return {};
+
+  const description = book.subtitle
+    ? `${book.subtitle} — ${book.description}`.slice(0, 300)
+    : book.description.slice(0, 300);
+  const url = `${siteUrl}/books/${book.slug}`;
+
+  return {
+    title: book.title,
+    description,
+    keywords: book.tags,
+    alternates: { canonical: `/books/${book.slug}` },
+    openGraph: {
+      title: book.title,
+      description,
+      url,
+      type: "book",
+      images: [{ url: book.coverImageUrl, alt: book.title }],
+      siteName,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: book.title,
+      description,
+      images: [book.coverImageUrl],
+    },
+  };
+}
 
 async function getDownloadUrl(book: Awaited<ReturnType<typeof getBookBySlug>>, sessionId?: string) {
   if (!book || !sessionId) return null;
@@ -44,8 +83,40 @@ export default async function BookDetailPage({
 
   const downloadUrl = checkout === "success" ? await getDownloadUrl(book, sessionId) : null;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    name: book.title,
+    ...(book.subtitle ? { alternateName: book.subtitle } : {}),
+    description: book.description,
+    image: book.coverImageUrl,
+    url: `${siteUrl}/books/${book.slug}`,
+    author: { "@type": "Person", name: siteName },
+    ...(book.isbn ? { isbn: book.isbn } : {}),
+    ...(book.genre ? { genre: book.genre } : {}),
+    ...(book.language ? { inLanguage: book.language } : {}),
+    ...(book.pageCount ? { numberOfPages: book.pageCount } : {}),
+    ...(book.publishedDate ? { datePublished: book.publishedDate } : {}),
+    bookFormat: book.format === "audiobook" ? "https://schema.org/AudiobookFormat" : "https://schema.org/EBook",
+    ...(book.comingSoon
+      ? {}
+      : {
+          offers: {
+            "@type": "Offer",
+            price: book.price,
+            priceCurrency: book.currency,
+            availability: "https://schema.org/InStock",
+            url: `${siteUrl}/books/${book.slug}`,
+          },
+        }),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main>
         <div className="section grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">

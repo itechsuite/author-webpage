@@ -20,10 +20,36 @@ const serif = EB_Garamond({
   display: "swap",
 });
 
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "Your Name";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const description =
+  "Discover novels and audiobooks that inspire readers to overcome challenges and rise above their limitations — plus writings on grace, redemption, and the craft of storytelling.";
+
 export const metadata: Metadata = {
-  title: `${process.env.NEXT_PUBLIC_SITE_NAME || "Your Name"} — Author`,
-  description: "Books, stories, and writings.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  title: {
+    default: `${siteName} — Author`,
+    template: `%s — ${siteName}`,
+  },
+  description,
+  metadataBase: new URL(siteUrl),
+  alternates: { canonical: "/" },
+  openGraph: {
+    siteName,
+    title: `${siteName} — Author`,
+    description,
+    url: siteUrl,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteName} — Author`,
+    description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
