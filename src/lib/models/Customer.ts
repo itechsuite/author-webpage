@@ -37,13 +37,20 @@ export async function upsertCustomerPurchase(
   const db = await getDb();
   const now = new Date();
 
+  // Ensure the customer document exists first.
   await db.collection(COLLECTION).updateOne(
     { email },
     {
-      $push: { purchases: purchase } as any,
       $set: { updatedAt: now, ...(name ? { name } : {}) },
       $setOnInsert: { email, createdAt: now },
     },
     { upsert: true }
+  );
+
+  // Only add this purchase if it isn't already recorded — keeps this safe
+  // to call again if Stripe retries the webhook for the same order.
+  await db.collection(COLLECTION).updateOne(
+    { email, "purchases.orderId": { $ne: purchase.orderId } },
+    { $push: { purchases: purchase } as any }
   );
 }

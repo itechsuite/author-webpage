@@ -4,6 +4,7 @@ import { hasPermission } from "@/lib/rbac";
 import { listOrders } from "@/lib/models/Order";
 import { formatPrice } from "@/lib/format";
 import RefundButton from "@/components/admin/RefundButton";
+import ResendEmailButton from "@/components/admin/ResendEmailButton";
 import AdminCard from "@/components/admin/AdminCard";
 import Badge from "@/components/admin/Badge";
 
@@ -67,9 +68,12 @@ export default async function AdminOrdersPage() {
                   <Badge tone={STATUS_TONE[order.status] || "neutral"}>{order.status}</Badge>
                 </td>
                 <td className="p-4">
-                  {canRefund && order.status === "paid" && order.stripePaymentIntentId && (
-                    <RefundButton orderId={order._id!} />
-                  )}
+                  <div className="flex flex-col gap-2">
+                    {order.status === "paid" && <ResendEmailButton orderId={order._id!} />}
+                    {canRefund && order.status === "paid" && order.stripePaymentIntentId && (
+                      <RefundButton orderId={order._id!} />
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

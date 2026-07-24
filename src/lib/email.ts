@@ -17,7 +17,7 @@ export async function sendPurchaseEmail({
 }) {
   const greeting = customerName ? `Hi ${customerName},` : "Hi,";
 
-  await resend.emails.send({
+  const result = await resend.emails.send({
     from: FROM,
     to,
     subject: `Your download: ${bookTitle}`,
@@ -40,4 +40,11 @@ export async function sendPurchaseEmail({
       </div>
     `,
   });
+
+  if (result.error) {
+    console.error("[sendPurchaseEmail] Resend rejected the send:", result.error);
+    throw new Error(`Resend error: ${result.error.message || JSON.stringify(result.error)}`);
+  }
+
+  return result;
 }

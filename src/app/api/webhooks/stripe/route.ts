@@ -70,13 +70,21 @@ export async function POST(req: NextRequest) {
 
       const fileKey = await getBookFileKey(book._id!);
       if (fileKey && customerEmail !== "unknown") {
-        const downloadUrl = await getPresignedDownloadUrl(fileKey, DOWNLOAD_LINK_EXPIRY_SECONDS);
-        await sendPurchaseEmail({
-          to: customerEmail,
-          customerName,
-          bookTitle: book.title,
-          downloadUrl,
-        });
+        try {
+          const downloadUrl = await getPresignedDownloadUrl(fileKey, DOWNLOAD_LINK_EXPIRY_SECONDS);
+          await sendPurchaseEmail({
+            to: customerEmail,
+            customerName,
+            bookTitle: book.title,
+            downloadUrl,
+          });
+        } catch (err) {
+          // The order/customer are already recorded above — a failed email
+          // shouldn't turn this into a 500 (which would make Stripe retry
+          // the whole event and re-run this block). Log it and let the
+          // admin resend the link manually from /admin/orders instead.
+          console.error("[webhook] Failed to send purchase email:", err);
+        }
       }
       break;
     }
