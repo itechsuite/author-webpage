@@ -9,9 +9,7 @@ const footerLinks = [
   { href: "/admin/login", label: "Admin" },
 ];
 
-// More retailers can be appended here as the author provides them
-// (e.g. Barnes & Noble). TODO: replace "#" with the real Amazon author/book link.
-const retailers = [{ label: "Amazon", href: "#" }];
+const retailers = [{ label: "Amazon", href: "https://amazon.com/author/ihuomairoaga25" }];
 
 export default function Footer() {
   const name = process.env.NEXT_PUBLIC_SITE_NAME || "Your Name";
